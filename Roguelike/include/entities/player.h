@@ -7,6 +7,9 @@ class Player : public Entity, public IDamageable
 {
 public:
 
+	Player(Sprite sprite);
+	~Player();
+
 	void Damage(int damage) override;
 
 	const BaseWeapon* GetWeapon() const;

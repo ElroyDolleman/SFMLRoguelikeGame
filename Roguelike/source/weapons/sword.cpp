@@ -1,14 +1,6 @@
 #include "stdafx.h"
 #include "weapons/sword.h"
 
-Sword::Sword()
-{
-}
-
-Sword::~Sword()
-{
-}
-
 void Sword::Attack()
 {
 }

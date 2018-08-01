@@ -4,6 +4,8 @@
 GameManager::GameManager(RenderWindow& window)
 	: window(window)
 {
+	textureManager = new TextureManager();
+
 	// Initialize damageable objects map
 	damageableObjects = {
 		{ CollisionLayers::Players,{} },
@@ -18,8 +20,11 @@ GameManager::GameManager(RenderWindow& window)
 		{ CollisionLayers::Objects,{} }
 	};
 	
+	// Adding the player to the world
+	player = new Player(Sprite(textureManager->GetSpriteSheet(TextureManager::SpriteSheetNames::Player), IntRect(0, 0, 16, 16)));
+	AddEntity(CollisionLayers::Players, player);
 
-	AddEntity(CollisionLayers::Players, new Player(Sprite()));
+	player->SetPosition(128, 64);
 }
 
 GameManager::~GameManager()
@@ -41,7 +46,9 @@ void GameManager::UpdateEntities(float deltaTime, CollisionLayers layer)
 
 void GameManager::Draw()
 {
-
+	DrawEntities(CollisionLayers::Objects);
+	DrawEntities(CollisionLayers::Enemies);
+	DrawEntities(CollisionLayers::Players);
 }
 
 void GameManager::DrawEntities(CollisionLayers layer)

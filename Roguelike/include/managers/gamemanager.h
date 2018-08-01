@@ -2,6 +2,7 @@
 #include "entities/Entity.h"
 #include "entities/Player.h"
 #include "interfaces/damageable.h"
+#include "texturemanager.h"
 
 class GameManager
 {
@@ -33,4 +34,6 @@ private:
 	Player* player;
 
 	RenderWindow& window;
+
+	TextureManager* textureManager;
 };

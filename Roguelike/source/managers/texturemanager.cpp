@@ -3,9 +3,11 @@
 
 TextureManager::TextureManager()
 {
-	spritesheets.insert(SpriteSheetNames::Map, LoadTexture("spritesheet"));
-	spritesheets.insert(SpriteSheetNames::Player, LoadTexture("playersheet"));
-	spritesheets.insert(SpriteSheetNames::Enemies, LoadTexture("enemysheet"));
+	spritesheets = {
+		{ SpriteSheetNames::Map,{ LoadTexture("spritesheet.png") } },
+		{ SpriteSheetNames::Player,{ LoadTexture("playersheet.png") } },
+		{ SpriteSheetNames::Enemies,{ LoadTexture("enemysheet.png") } }
+	};
 }
 
 Texture& TextureManager::GetSpriteSheet(SpriteSheetNames name)
@@ -20,7 +22,7 @@ Texture TextureManager::LoadTexture(string path)
 
 #if _DEBUG
 	if (!texture.loadFromFile(path))
-		printf("Warning: Failed to load texture path");
+		printf("Warning: Failed to load texture %s\n", path.c_str());
 #else
 	texture.loadFromFile(path);
 #endif
