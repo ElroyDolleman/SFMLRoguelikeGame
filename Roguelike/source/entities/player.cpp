@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "constants.h"
 
-bool Player::PlayWithController = false;
+bool Player::PlayWithController = true;
 
 Player::Player(SpriteAnimation sprite)
 	: Entity(sprite)
@@ -12,6 +12,14 @@ Player::Player(SpriteAnimation sprite)
 	this->sprite.addAnimation(PlayerAnimations::WalkDown, 200.0f, 0, 1);
 	this->sprite.addAnimation(PlayerAnimations::WalkLeft, 200.0f, 4, 5);
 	this->sprite.addAnimation(PlayerAnimations::WalkRight, 200.0f, 6, 7);
+
+	if (PlayWithController && !Joystick::isConnected(0))
+	{
+		PlayWithController = false;
+#if _DEBUG
+		printf("Warning: Joystick is not connected or recognized.");
+#endif
+	}
 }
 
 Player::~Player()
@@ -56,13 +64,45 @@ void Player::Update(float deltaTime)
 
 void Player::UpdateJoystickInput(float deltaTime)
 {
-	if (Joystick::isConnected(0) && Joystick::hasAxis(0, Joystick::X) && Joystick::hasAxis(0, Joystick::Y))
+	if (!Joystick::isConnected(0))
+	{
+#if _DEBUG
+		printf("Warning: Joystick is disconnected.");
+#endif
+		PlayWithController = false;
+		return;
+	}
+
+	if (Joystick::hasAxis(0, Joystick::X) && Joystick::hasAxis(0, Joystick::Y))
 	{
 		float x = Joystick::getAxisPosition(0, Joystick::X) / 100;
 		float y = Joystick::getAxisPosition(0, Joystick::Y) / 100;
 
 		if (x < controls::JoystickDeadZone && x > -controls::JoystickDeadZone) x = 0;
 		if (y < controls::JoystickDeadZone && y > -controls::JoystickDeadZone) y = 0;
+
+		// Move the player if the stick has moved
+		if (abs(x) > 0 || abs(y) > 0)
+		{
+			Move(movementSpeed * x * deltaTime, movementSpeed * y * deltaTime);
+
+			// Prevent checking inputs from the dpad if the player is already moving with the stick
+			return;
+		}
+	}
+
+	if (Joystick::hasAxis(0, Joystick::PovX) && Joystick::hasAxis(0, Joystick::PovY))
+	{
+		float x = roundf(Joystick::getAxisPosition(0, Joystick::PovX) / 100);
+		float y = -roundf(Joystick::getAxisPosition(0, Joystick::PovY) / 100);
+
+		GetDirectionBasedOnInput(
+			x, y,
+			y < 0,
+			y > 0,
+			x < 0,
+			x > 0
+		);
 
 		Move(movementSpeed * x * deltaTime, movementSpeed * y * deltaTime);
 	}
@@ -73,35 +113,41 @@ void Player::UpdateKeyboardInput(float deltaTime)
 	float x = 0.f;
 	float y = 0.f;
 
-	bool top = Keyboard::isKeyPressed(controls::UpButton);
-	bool right = Keyboard::isKeyPressed(controls::RightButton);
-	bool down = Keyboard::isKeyPressed(controls::DownButton);
-	bool left = Keyboard::isKeyPressed(controls::LeftButton);
-
-	if (top && left)
-		x = y = -diagonalSpeedMultiplier;
-	else if (down && right)
-		x = y = diagonalSpeedMultiplier;
-	else if (down && left)
-	{
-		x = -diagonalSpeedMultiplier;
-		y = diagonalSpeedMultiplier;
-	}
-	else if (top && right)
-	{
-		x = diagonalSpeedMultiplier;
-		y = -diagonalSpeedMultiplier;
-	}
-	else if (right)
-		x = 1.f;
-	else if (left)
-		x = -1.f;
-	else if (top)
-		y = -1.f;
-	else if (down)
-		y = 1.f;
+	GetDirectionBasedOnInput(
+		x, y,
+		Keyboard::isKeyPressed(controls::UpButton),
+		Keyboard::isKeyPressed(controls::DownButton),
+		Keyboard::isKeyPressed(controls::LeftButton),
+		Keyboard::isKeyPressed(controls::RightButton)
+	);
 
 	Move(movementSpeed * x * deltaTime, movementSpeed * y * deltaTime);
+}
+
+void Player::GetDirectionBasedOnInput(float& xDirection, float& yDirection, bool up, bool down, bool left, bool right) const
+{
+	if (up && left)
+		xDirection = yDirection = -diagonalSpeedMultiplier;
+	else if (down && right)
+		xDirection = yDirection = diagonalSpeedMultiplier;
+	else if (down && left)
+	{
+		xDirection = -diagonalSpeedMultiplier;
+		yDirection = diagonalSpeedMultiplier;
+	}
+	else if (up && right)
+	{
+		xDirection = diagonalSpeedMultiplier;
+		yDirection = -diagonalSpeedMultiplier;
+	}
+	else if (right)
+		xDirection = 1.f;
+	else if (left)
+		xDirection = -1.f;
+	else if (up)
+		yDirection = -1.f;
+	else if (down)
+		yDirection = 1.f;
 }
 
 void Player::Move(float x, float y)

@@ -34,6 +34,8 @@ public:
 	virtual void UpdateJoystickInput(float deltaTime);
 	virtual void UpdateKeyboardInput(float deltaTime);
 
+	void GetDirectionBasedOnInput(float& xDirection, float& yDirection, bool up, bool down, bool left, bool right) const;
+
 	virtual void Move(float x, float y) override;
 
 	virtual void Draw(RenderWindow& window) override;
