@@ -60,6 +60,9 @@
     <ClInclude Include="include\graphics\spriteanimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\map\room.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -87,6 +90,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\graphics\spriteanimation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\map\room.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\map\tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

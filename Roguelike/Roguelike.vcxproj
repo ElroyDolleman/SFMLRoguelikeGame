@@ -165,6 +165,7 @@
     <ClInclude Include="include\managers\gamemanager.h" />
     <ClInclude Include="include\interfaces\damageable.h" />
     <ClInclude Include="include\managers\texturemanager.h" />
+    <ClInclude Include="include\map\room.h" />
     <ClInclude Include="include\map\tile.h" />
     <ClInclude Include="include\weapons\baseweapon.h" />
     <ClInclude Include="include\weapons\sword.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="include\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\map\room.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="source\entities\entity.cpp" />
     <ClCompile Include="source\entities\player.cpp" />
@@ -179,6 +181,7 @@
     <ClCompile Include="source\graphics\spritesheet.cpp" />
     <ClCompile Include="source\managers\gamemanager.cpp" />
     <ClCompile Include="source\managers\texturemanager.cpp" />
+    <ClCompile Include="source\map\tile.cpp" />
     <ClCompile Include="source\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

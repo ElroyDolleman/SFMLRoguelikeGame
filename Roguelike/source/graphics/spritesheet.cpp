@@ -1,5 +1,10 @@
 #include "graphics\spritesheet.h"
 
+SpriteSheet::SpriteSheet()
+	: Sprite()
+{
+}
+
 SpriteSheet::SpriteSheet(const Texture& texture, int sheetWidth, int sheetHeight, int tileWidth, int tileHeight)
 	: Sprite(texture)
 {

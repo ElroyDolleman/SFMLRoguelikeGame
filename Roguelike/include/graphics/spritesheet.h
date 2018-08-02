@@ -5,6 +5,7 @@ class SpriteSheet : public Sprite
 {
 public:
 
+	SpriteSheet();
 	SpriteSheet(const Texture& texture, int sheetWidth, int sheetHeight, int tileWidth, int tileHeight);
 	SpriteSheet(const Texture& texture, const Vector2i& sheetSize, const Vector2i& tileSize);
 
@@ -40,10 +41,10 @@ public:
 protected:
 
 	int tileNumber = 0;
-	Vector2i tileSize;
-	Vector2i sheetSize;
-	Vector2i offset = { 0, 0 };
+	Vector2i tileSize = { 0, 0 };
+	Vector2i sheetSize = { 0, 0 };
 	Vector2i interspace = { 0, 0 };
+	Vector2i offset = { 0, 0 };
 
 	void updateTextureRect();
 };

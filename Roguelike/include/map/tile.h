@@ -1,28 +1,35 @@
 #pragma once
-#include "stdafx.h"
+#include "graphics\spritesheet.h"
 
 class Tile
 {
 public:
 
-	Tile(IntRect hitbox, Sprite background);
+	Tile(IntRect hitbox);
+	Tile(IntRect hitbox, SpriteSheet background);
 
-	void SetBackgroundSprite(sf::Sprite sprite);
-	void SetOverlaySprite(sf::Sprite sprite);
-	void SetForegroundSprite(sf::Sprite sprite);
+	void SetBackgroundSprite(SpriteSheet sprite);
+	void SetOverlaySprite(SpriteSheet sprite);
+	void SetForegroundSprite(SpriteSheet sprite);
 
-	Sprite& GetBackgroundSprite();
-	Sprite& GetOverlaySprite();
-	Sprite& GetForegroundSprite();
+	SpriteSheet& GetBackgroundSprite();
+	SpriteSheet& GetOverlaySprite();
+	SpriteSheet& GetForegroundSprite();
 
 	Vector2f GetPosition() const;
 	const IntRect& GetHitbox() const;
 
+	void Draw(RenderWindow& window);
+
 private:
 
-	Sprite background;
-	Sprite overlay;
-	Sprite foreground;
+	SpriteSheet background;
+	SpriteSheet overlay;
+	SpriteSheet foreground;
+	
+	bool isVisible = true;
+	bool overlayIsVisible = false;
+	bool foregroundIsVisible = false;
 
 	IntRect hitbox;
 };
