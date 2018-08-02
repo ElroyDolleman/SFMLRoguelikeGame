@@ -7,6 +7,8 @@ class Player : public Entity, public IDamageable
 {
 public:
 
+	static bool PlayWithController;
+
 	Player(Sprite sprite);
 	~Player();
 
@@ -19,8 +21,18 @@ public:
 
 	virtual void Update(float deltaTime) override;
 
+	virtual void UpdateJoystickInput(float deltaTime);
+	virtual void UpdateKeyboardInput(float deltaTime);
+
 protected:
 
+	bool inputEnabled = true;
+
 	int health;
+	int movementSpeed = 4;
 	BaseWeapon* currentWeapon;
+
+	const float diagonalSpeedMultiplier = 0.7071f;
 };
+
+bool Player::PlayWithController = true;

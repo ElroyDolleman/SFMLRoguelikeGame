@@ -16,6 +16,11 @@ void Entity::Move(Vector2f direction)
 	sprite.move(direction);
 }
 
+void Entity::MoveInAngle(float angle, float speed)
+{
+	sprite.move(cos(angle) * speed, sin(angle) * speed);
+}
+
 void Entity::SetPosition(float x, float y)
 {
 	sprite.setPosition(x, y);

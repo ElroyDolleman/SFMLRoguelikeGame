@@ -16,7 +16,7 @@ int main()
 		}
 
 		window.clear();
-		gameManager->Update(0);
+		gameManager->Update(1.f / 60.f);
 		gameManager->Draw();
 		window.display();
 	}
