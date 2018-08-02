@@ -13,7 +13,7 @@ void Entity::Move(float x, float y)
 
 void Entity::Move(Vector2f direction)
 {
-	sprite.move(direction);
+	Move(direction.x, direction.y);
 }
 
 void Entity::MoveInAngle(float angle, float speed)

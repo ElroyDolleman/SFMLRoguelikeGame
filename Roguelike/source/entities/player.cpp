@@ -7,7 +7,11 @@ bool Player::PlayWithController = false;
 Player::Player(SpriteAnimation sprite)
 	: Entity(sprite)
 {
-	this->sprite.addAnimation(0, 200.0f, 0, 1);
+	this->sprite.addAnimation(PlayerAnimations::Idle, 200.0f, 0, 0);
+	this->sprite.addAnimation(PlayerAnimations::WalkUp, 200.0f, 2, 3);
+	this->sprite.addAnimation(PlayerAnimations::WalkDown, 200.0f, 0, 1);
+	this->sprite.addAnimation(PlayerAnimations::WalkLeft, 200.0f, 4, 5);
+	this->sprite.addAnimation(PlayerAnimations::WalkRight, 200.0f, 6, 7);
 }
 
 Player::~Player()
@@ -60,8 +64,7 @@ void Player::UpdateJoystickInput(float deltaTime)
 		if (x < controls::JoystickDeadZone && x > -controls::JoystickDeadZone) x = 0;
 		if (y < controls::JoystickDeadZone && y > -controls::JoystickDeadZone) y = 0;
 
-		if (x != 0 || y != 0)
-			Move(movementSpeed * x * deltaTime, movementSpeed * y * deltaTime);
+		Move(movementSpeed * x * deltaTime, movementSpeed * y * deltaTime);
 	}
 }
 
@@ -98,8 +101,32 @@ void Player::UpdateKeyboardInput(float deltaTime)
 	else if (down)
 		y = 1.f;
 
-	if (x != 0 || y != 0)
-		Move(movementSpeed * x * deltaTime, movementSpeed * y * deltaTime);
+	Move(movementSpeed * x * deltaTime, movementSpeed * y * deltaTime);
+}
+
+void Player::Move(float x, float y)
+{
+	if (x == 0 && y == 0)
+	{
+		sprite.switchToAnimation(PlayerAnimations::Idle);
+		return;
+	}
+	else if (abs(x) > abs(y))
+	{
+		if (x > 0)
+			sprite.switchToAnimation(PlayerAnimations::WalkRight);
+		else
+			sprite.switchToAnimation(PlayerAnimations::WalkLeft);
+	}
+	else
+	{
+		if (y > 0)
+			sprite.switchToAnimation(PlayerAnimations::WalkDown);
+		else
+			sprite.switchToAnimation(PlayerAnimations::WalkUp);
+	}
+
+	Entity::Move(x, y);
 }
 
 void Player::Draw(RenderWindow& window)

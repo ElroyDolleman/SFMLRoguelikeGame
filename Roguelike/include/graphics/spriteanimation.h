@@ -51,6 +51,8 @@ public:
 	void addAnimation(int animKey, float interval, int fromFrame, int toFrame);
 	void addAnimation(int animKey, float interval, vector<int> frames);
 
+	void switchToAnimation(int animKey);
+
 	void update(float deltaTime);
 
 	int getAnimationCount();

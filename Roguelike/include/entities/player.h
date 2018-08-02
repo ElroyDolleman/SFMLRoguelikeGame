@@ -7,6 +7,16 @@ class Player : public Entity, public IDamageable
 {
 public:
 
+	enum PlayerAnimations
+	{
+		Idle,
+		WalkLeft,
+		WalkRight,
+		WalkUp,
+		WalkDown,
+		Attack,
+	};
+
 	static bool PlayWithController;
 
 	Player(SpriteAnimation sprite);
@@ -23,6 +33,8 @@ public:
 
 	virtual void UpdateJoystickInput(float deltaTime);
 	virtual void UpdateKeyboardInput(float deltaTime);
+
+	virtual void Move(float x, float y) override;
 
 	virtual void Draw(RenderWindow& window) override;
 

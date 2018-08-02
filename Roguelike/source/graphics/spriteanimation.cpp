@@ -35,6 +35,19 @@ void SpriteAnimation::addAnimation(int animKey, float interval, vector<int> fram
 	animationCount++;
 }
 
+void SpriteAnimation::switchToAnimation(int animKey)
+{
+	if (currentAnimation == animKey)
+		return;
+
+	currentAnimation = animKey;
+	timer = 0.0f;
+
+	// Update the animation visually
+	setTileNumber(animations[currentAnimation].getTileNumber());
+	updateTextureRect();
+}
+
 void SpriteAnimation::update(float deltaTime)
 {
 #if _DEBUG
