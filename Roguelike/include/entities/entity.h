@@ -1,10 +1,11 @@
 #pragma once
+#include "graphics\spriteanimation.h"
 
 class Entity
 {
 public:
 
-	Entity(Sprite sprite);
+	Entity(SpriteAnimation sprite);
 
 	virtual void Move(float x, float y);
 	virtual void Move(Vector2f direction);
@@ -21,7 +22,7 @@ public:
 
 protected:
 
-	Sprite sprite;
+	SpriteAnimation sprite;
 
 private:
 

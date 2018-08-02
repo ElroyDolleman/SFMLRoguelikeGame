@@ -21,7 +21,7 @@ GameManager::GameManager(RenderWindow& window)
 	};
 	
 	// Adding the player to the world
-	player = new Player(Sprite(textureManager->GetSpriteSheet(TextureManager::SpriteSheetNames::Player), IntRect(0, 0, 16, 16)));
+	player = new Player(SpriteAnimation(textureManager->GetSpriteSheet(TextureManager::SpriteSheetNames::Player), 32, 64, 16, 16));
 	AddEntity(CollisionLayers::Players, player);
 
 	player->SetPosition(128, 64);

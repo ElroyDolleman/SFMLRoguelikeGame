@@ -1,11 +1,13 @@
-#include "stdafx.h"
 #include "entities/player.h"
+#include "stdafx.h"
+#include "constants.h"
 
-bool Player::PlayWithController = true;
+bool Player::PlayWithController = false;
 
-Player::Player(Sprite sprite)
+Player::Player(SpriteAnimation sprite)
 	: Entity(sprite)
 {
+	this->sprite.addAnimation(0, 200.0f, 0, 1);
 }
 
 Player::~Player()
@@ -43,6 +45,9 @@ void Player::Update(float deltaTime)
 		else
 			UpdateKeyboardInput(deltaTime);
 	}
+
+	// Update the sprite animation
+	sprite.update(deltaTime);
 }
 
 void Player::UpdateJoystickInput(float deltaTime)
@@ -52,10 +57,11 @@ void Player::UpdateJoystickInput(float deltaTime)
 		float x = Joystick::getAxisPosition(0, Joystick::X) / 100;
 		float y = Joystick::getAxisPosition(0, Joystick::Y) / 100;
 
-		if (x < 0.2f && x > -0.2f) x = 0;
-		if (y < 0.2f && y > -0.2f) y = 0;
+		if (x < controls::JoystickDeadZone && x > -controls::JoystickDeadZone) x = 0;
+		if (y < controls::JoystickDeadZone && y > -controls::JoystickDeadZone) y = 0;
 
-		Move(movementSpeed * x * deltaTime, movementSpeed * y * deltaTime);
+		if (x != 0 || y != 0)
+			Move(movementSpeed * x * deltaTime, movementSpeed * y * deltaTime);
 	}
 }
 
@@ -64,10 +70,10 @@ void Player::UpdateKeyboardInput(float deltaTime)
 	float x = 0.f;
 	float y = 0.f;
 
-	bool top = Keyboard::isKeyPressed(Keyboard::W);
-	bool right = Keyboard::isKeyPressed(Keyboard::D);
-	bool down = Keyboard::isKeyPressed(Keyboard::S);
-	bool left = Keyboard::isKeyPressed(Keyboard::A);
+	bool top = Keyboard::isKeyPressed(controls::UpButton);
+	bool right = Keyboard::isKeyPressed(controls::RightButton);
+	bool down = Keyboard::isKeyPressed(controls::DownButton);
+	bool left = Keyboard::isKeyPressed(controls::LeftButton);
 
 	if (top && left)
 		x = y = -diagonalSpeedMultiplier;
@@ -92,5 +98,11 @@ void Player::UpdateKeyboardInput(float deltaTime)
 	else if (down)
 		y = 1.f;
 
-	Move(movementSpeed * x * deltaTime, movementSpeed * y * deltaTime);
+	if (x != 0 || y != 0)
+		Move(movementSpeed * x * deltaTime, movementSpeed * y * deltaTime);
+}
+
+void Player::Draw(RenderWindow& window)
+{
+	Entity::Draw(window);
 }

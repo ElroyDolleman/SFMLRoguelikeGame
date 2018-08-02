@@ -6,6 +6,8 @@ int main()
 	RenderWindow window(VideoMode(256, 224), "Rogue");
 	GameManager* gameManager = new GameManager(window);
 
+	window.setFramerateLimit(60);
+
 	while (window.isOpen())
 	{
 		Event event;

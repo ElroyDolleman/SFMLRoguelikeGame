@@ -9,7 +9,7 @@ public:
 
 	static bool PlayWithController;
 
-	Player(Sprite sprite);
+	Player(SpriteAnimation sprite);
 	~Player();
 
 	void Damage(int damage) override;
@@ -24,12 +24,14 @@ public:
 	virtual void UpdateJoystickInput(float deltaTime);
 	virtual void UpdateKeyboardInput(float deltaTime);
 
+	virtual void Draw(RenderWindow& window) override;
+
 protected:
 
 	bool inputEnabled = true;
 
 	int health;
-	int movementSpeed = 4;
+	int movementSpeed = 128;
 	BaseWeapon* currentWeapon;
 
 	const float diagonalSpeedMultiplier = 0.7071f;

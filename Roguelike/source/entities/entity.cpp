@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "entities/entity.h"
 
-Entity::Entity(Sprite sprite)
+Entity::Entity(SpriteAnimation sprite)
 	: sprite(sprite)
 {
 }
