@@ -162,6 +162,7 @@
     <ClInclude Include="include\entities\projectile.h" />
     <ClInclude Include="include\graphics\spriteanimation.h" />
     <ClInclude Include="include\graphics\spritesheet.h" />
+    <ClInclude Include="include\json.hpp" />
     <ClInclude Include="include\managers\gamemanager.h" />
     <ClInclude Include="include\interfaces\damageable.h" />
     <ClInclude Include="include\managers\texturemanager.h" />
