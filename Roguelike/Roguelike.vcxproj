@@ -155,12 +155,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\constants.h" />
     <ClInclude Include="include\entities\enemy.h" />
     <ClInclude Include="include\entities\entity.h" />
     <ClInclude Include="include\entities\player.h" />
     <ClInclude Include="include\entities\projectile.h" />
     <ClInclude Include="include\managers\gamemanager.h" />
-    <ClInclude Include="include\global\grid.h" />
     <ClInclude Include="include\interfaces\damageable.h" />
     <ClInclude Include="include\managers\texturemanager.h" />
     <ClInclude Include="include\map\tile.h" />
