@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "entities/player.h"
 
+bool Player::PlayWithController = true;
+
 Player::Player(Sprite sprite)
 	: Entity(sprite)
 {

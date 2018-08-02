@@ -34,5 +34,3 @@ protected:
 
 	const float diagonalSpeedMultiplier = 0.7071f;
 };
-
-bool Player::PlayWithController = true;
