@@ -2,48 +2,62 @@
 #include "stdafx.h"
 
 Tile::Tile(IntRect hitbox)
+	: hitbox(hitbox)
 {
 	isVisible = false;
 }
 
-Tile::Tile(IntRect hitbox, SpriteSheet background)
-	: background(background)
+Tile::Tile(IntRect hitbox, Tileset background)
+	: hitbox(hitbox)
 {
-	background.setPosition((float)hitbox.left, (float)hitbox.top);
+	SetBackgroundSprite(background);
 }
 
-void Tile::SetBackgroundSprite(SpriteSheet sprite)
+Tile::Tile(IntRect hitbox, Tileset background, json tilesetData)
+	: Tile(hitbox, background)
+{
+#if _DEBUG
+	if (tilesetData["tileproperties"][to_string(background.getTileNumber())]["solid"].is_null())
+	{
+		printf("Warning: Failed to get the isSolid property from tile number %i.\n", background.getTileNumber());
+		return;
+	}
+#endif
+	isSolid = tilesetData["tileproperties"][to_string(background.getTileNumber())]["solid"].get<bool>();
+}
+
+void Tile::SetBackgroundSprite(Tileset sprite)
 {
 	background = sprite;
 	background.setPosition((float)hitbox.left, (float)hitbox.top);
 	isVisible = true;
 }
 
-void Tile::SetOverlaySprite(SpriteSheet sprite)
+void Tile::SetOverlaySprite(Tileset sprite)
 {
 	overlay = sprite;
 	overlay.setPosition((float)hitbox.left, (float)hitbox.top);
 	overlayIsVisible = true;
 }
 
-void Tile::SetForegroundSprite(SpriteSheet sprite)
+void Tile::SetForegroundSprite(Tileset sprite)
 {
 	foreground = sprite;
 	foreground.setPosition((float)hitbox.left, (float)hitbox.top);
 	foregroundIsVisible = true;
 }
 
-SpriteSheet& Tile::GetBackgroundSprite()
+Tileset& Tile::GetBackgroundSprite()
 {
 	return background;
 }
 
-SpriteSheet& Tile::GetOverlaySprite()
+Tileset& Tile::GetOverlaySprite()
 {
 	return overlay;
 }
 
-SpriteSheet& Tile::GetForegroundSprite()
+Tileset& Tile::GetForegroundSprite()
 {
 	return foreground;
 }

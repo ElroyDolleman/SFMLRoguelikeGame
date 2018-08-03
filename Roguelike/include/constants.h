@@ -11,6 +11,11 @@ namespace controls
 	const float JoystickDeadZone = 0.2f;
 }
 
+namespace grid
+{
+	const int size = 16;
+}
+
 namespace playerAnimations
 {
 

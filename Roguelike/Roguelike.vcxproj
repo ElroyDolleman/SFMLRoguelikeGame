@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -161,12 +161,13 @@
     <ClInclude Include="include\entities\player.h" />
     <ClInclude Include="include\entities\projectile.h" />
     <ClInclude Include="include\graphics\spriteanimation.h" />
-    <ClInclude Include="include\graphics\spritesheet.h" />
+    <ClInclude Include="include\graphics\tileset.h" />
     <ClInclude Include="include\json.hpp" />
+    <ClInclude Include="include\managers\contentloader.h" />
     <ClInclude Include="include\managers\gamemanager.h" />
     <ClInclude Include="include\interfaces\damageable.h" />
-    <ClInclude Include="include\managers\texturemanager.h" />
     <ClInclude Include="include\map\room.h" />
+    <ClInclude Include="include\map\roomloader.h" />
     <ClInclude Include="include\map\tile.h" />
     <ClInclude Include="include\weapons\baseweapon.h" />
     <ClInclude Include="include\weapons\sword.h" />
@@ -174,14 +175,16 @@
     <ClInclude Include="include\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\managers\contentloader.cpp" />
     <ClCompile Include="source\map\room.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="source\entities\entity.cpp" />
     <ClCompile Include="source\entities\player.cpp" />
     <ClCompile Include="source\graphics\spriteanimation.cpp" />
-    <ClCompile Include="source\graphics\spritesheet.cpp" />
+    <ClCompile Include="source\graphics\tileset.cpp" />
     <ClCompile Include="source\managers\gamemanager.cpp" />
     <ClCompile Include="source\managers\texturemanager.cpp" />
+    <ClCompile Include="source\map\roomloader.cpp" />
     <ClCompile Include="source\map\tile.cpp" />
     <ClCompile Include="source\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

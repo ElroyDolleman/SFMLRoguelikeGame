@@ -1,12 +1,12 @@
 #include "graphics\spriteanimation.h"
 
 SpriteAnimation::SpriteAnimation(const Texture& texture, int sheetWidth, int sheetHeight, int tileWidth, int tileHeight)
-	: SpriteSheet(texture, sheetWidth, sheetHeight, tileWidth, tileHeight)
+	: Tileset(texture, sheetWidth, sheetHeight, tileWidth, tileHeight)
 {
 }
 
 SpriteAnimation::SpriteAnimation(const Texture& texture, const Vector2i& sheetSize, const Vector2i& tileSize)
-	: SpriteSheet(texture, sheetSize, tileSize)
+	: Tileset(texture, sheetSize, tileSize)
 {
 }
 

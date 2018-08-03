@@ -4,7 +4,15 @@
 GameManager::GameManager(RenderWindow& window)
 	: window(window)
 {
-	textureManager = new TextureManager();
+	contentLoader = new ContentLoader();
+	roomLoader = new RoomLoader();
+
+	mapSheet = contentLoader->LoadTexture("spritesheet.png");
+	testRoom = roomLoader->CreateRoom(
+		mapSheet,
+		contentLoader->LoadJSON("rooms\\test1"),
+		contentLoader->LoadJSON("sheetdata1")
+	);
 
 	// Initialize damageable objects map
 	damageableObjects = {
@@ -21,7 +29,7 @@ GameManager::GameManager(RenderWindow& window)
 	};
 	
 	// Adding the player to the world
-	player = new Player(SpriteAnimation(textureManager->GetSpriteSheet(TextureManager::SpriteSheetNames::Player), 32, 64, 16, 16));
+	player = new Player(SpriteAnimation(contentLoader->LoadTexture("playersheet.png"), 32, 64, 16, 16));
 	AddEntity(CollisionLayers::Players, player);
 
 	player->SetPosition(128, 64);
@@ -29,6 +37,8 @@ GameManager::GameManager(RenderWindow& window)
 
 GameManager::~GameManager()
 {
+	delete contentLoader;
+	delete roomLoader;
 }
 
 void GameManager::Update(float deltaTime)
@@ -46,6 +56,10 @@ void GameManager::UpdateEntities(float deltaTime, CollisionLayers layer)
 
 void GameManager::Draw()
 {
+	// TODO: Think of a proper room handling system
+	if (testRoom != nullptr)
+		testRoom->Draw(window);
+
 	DrawEntities(CollisionLayers::Objects);
 	DrawEntities(CollisionLayers::Enemies);
 	DrawEntities(CollisionLayers::Players);

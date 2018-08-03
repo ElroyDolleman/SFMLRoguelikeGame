@@ -48,13 +48,7 @@
     <ClInclude Include="include\managers\gamemanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\managers\texturemanager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\constants.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\graphics\spritesheet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\graphics\spriteanimation.h">
@@ -64,6 +58,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\map\roomloader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\managers\contentloader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\graphics\tileset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -89,9 +92,6 @@
     <ClCompile Include="source\managers\texturemanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\graphics\spritesheet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\graphics\spriteanimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -99,6 +99,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\map\tile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\map\roomloader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\managers\contentloader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphics\tileset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

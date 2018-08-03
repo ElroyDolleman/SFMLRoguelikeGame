@@ -1,7 +1,7 @@
 #pragma once
-#include "graphics\spritesheet.h"
+#include "graphics\tileset.h"
 
-class SpriteAnimation : public SpriteSheet
+class SpriteAnimation : public Tileset
 {
 public:
 
