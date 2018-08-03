@@ -1,7 +1,7 @@
 #pragma once
-#include "stdafx.h"
+#include "fwd.h"
+#include "entities\entity.h"
 #include "interfaces\damageable.h"
-#include "weapons\sword.h"
 
 class Player : public Entity, public IDamageable
 {

@@ -1,5 +1,4 @@
 #pragma once
-#include "stdafx.h"
 #include "entities\entity.h"
 
 class BaseWeapon : public Entity

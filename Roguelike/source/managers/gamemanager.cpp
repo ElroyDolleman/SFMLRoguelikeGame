@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "managers/gamemanager.h"
 
+#include "entities\Entity.h"
+#include "entities\Player.h"
+#include "interfaces\damageable.h"
+#include "managers\contentloader.h"
+#include "map\roomloader.h"
+
 GameManager::GameManager(RenderWindow& window)
 	: window(window)
 {

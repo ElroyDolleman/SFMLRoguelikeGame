@@ -1,5 +1,7 @@
-#include "entities/player.h"
 #include "stdafx.h"
+#include "entities/player.h"
+
+#include "weapons/sword.h"
 #include "constants.h"
 
 bool Player::PlayWithController = true;

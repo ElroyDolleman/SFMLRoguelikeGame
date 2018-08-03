@@ -160,6 +160,7 @@
     <ClInclude Include="include\entities\entity.h" />
     <ClInclude Include="include\entities\player.h" />
     <ClInclude Include="include\entities\projectile.h" />
+    <ClInclude Include="include\fwd.h" />
     <ClInclude Include="include\graphics\spriteanimation.h" />
     <ClInclude Include="include\graphics\tileset.h" />
     <ClInclude Include="include\json.hpp" />

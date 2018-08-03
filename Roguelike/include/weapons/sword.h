@@ -1,5 +1,4 @@
 #pragma once
-#include "stdafx.h"
 #include "weapons\baseweapon.h"
 
 class Sword : public BaseWeapon

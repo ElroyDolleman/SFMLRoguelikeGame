@@ -69,6 +69,9 @@
     <ClInclude Include="include\graphics\tileset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\fwd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

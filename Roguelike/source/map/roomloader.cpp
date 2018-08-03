@@ -11,7 +11,7 @@ Room* RoomLoader::CreateRoom(Texture& texture, const json& roomData, const json&
 	vector<int> tileNumbers0 = roomData["layers"][0]["data"].get<vector<int>>();
 
 	Room* room = new Room(Tileset(texture, tilesetData), roomData["width"], roomData["height"]);
-	room->CreateBackgroundTiles(tileNumbers0, tilesetData);
+	room->CreateTiles(tileNumbers0, tilesetData);
 
 	return room;
 }

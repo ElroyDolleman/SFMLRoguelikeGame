@@ -1,9 +1,5 @@
 #pragma once
-#include "entities\Entity.h"
-#include "entities\Player.h"
-#include "interfaces\damageable.h"
-#include "contentloader.h"
-#include "map\roomloader.h"
+#include "fwd.h"
 
 class GameManager
 {
