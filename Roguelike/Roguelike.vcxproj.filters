@@ -89,9 +89,6 @@
     <ClCompile Include="source\managers\gamemanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\managers\texturemanager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\graphics\spriteanimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

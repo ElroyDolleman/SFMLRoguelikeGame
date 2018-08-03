@@ -183,7 +183,6 @@
     <ClCompile Include="source\graphics\spriteanimation.cpp" />
     <ClCompile Include="source\graphics\tileset.cpp" />
     <ClCompile Include="source\managers\gamemanager.cpp" />
-    <ClCompile Include="source\managers\texturemanager.cpp" />
     <ClCompile Include="source\map\roomloader.cpp" />
     <ClCompile Include="source\map\tile.cpp" />
     <ClCompile Include="source\stdafx.cpp">
