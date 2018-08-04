@@ -1,19 +1,19 @@
-#include "map\tile.h"
 #include "stdafx.h"
+#include "map\tile.h"
 
-Tile::Tile(IntRect hitbox)
+Tile::Tile(AABB hitbox)
 	: hitbox(hitbox)
 {
 	isVisible = false;
 }
 
-Tile::Tile(IntRect hitbox, Tileset background)
+Tile::Tile(AABB hitbox, Tileset background)
 	: hitbox(hitbox)
 {
 	SetBackgroundSprite(background);
 }
 
-Tile::Tile(IntRect hitbox, Tileset background, json tilesetData)
+Tile::Tile(AABB hitbox, Tileset background, json tilesetData)
 	: Tile(hitbox, background)
 {
 #if _DEBUG
@@ -67,7 +67,7 @@ Vector2f Tile::GetPosition() const
 	return Vector2f((float)hitbox.left, (float)hitbox.top);
 }
 
-const IntRect & Tile::GetHitbox() const
+const AABB& Tile::GetHitbox() const
 {
 	return hitbox;
 }
@@ -84,4 +84,9 @@ void Tile::Draw(RenderWindow& window)
 
 	if (foregroundIsVisible)
 		window.draw(foreground);
+}
+
+bool Tile::IsSolid() const
+{
+	return isSolid;
 }

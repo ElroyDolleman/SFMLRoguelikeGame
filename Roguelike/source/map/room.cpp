@@ -44,6 +44,11 @@ Tile* Room::GetTile(int x, int y) const
 	return tiles[y][x];
 }
 
+Vector2i Room::ToGridLocation(int x, int y) const
+{
+	return Vector2i((int)floor(x / grid::size), (int)floor(y / grid::size));
+}
+
 Vector2i Room::ToGridLocation(float x, float y) const
 {
 	return Vector2i((int)floor(x / grid::size), (int)floor(y / grid::size));

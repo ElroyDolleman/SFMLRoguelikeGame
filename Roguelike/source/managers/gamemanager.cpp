@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "managers/gamemanager.h"
 
+#include "collision\collisionmanager.h"
+#include "managers\contentloader.h"
+#include "interfaces\damageable.h"
 #include "entities\Entity.h"
 #include "entities\Player.h"
-#include "interfaces\damageable.h"
-#include "managers\contentloader.h"
 #include "map\roomloader.h"
 
 GameManager::GameManager(RenderWindow& window)
@@ -19,6 +20,8 @@ GameManager::GameManager(RenderWindow& window)
 		contentLoader->LoadJSON("rooms\\test1"),
 		contentLoader->LoadJSON("sheetdata1")
 	);
+
+	collisionManager = new CollisionManager(testRoom);
 
 	// Initialize damageable objects map
 	damageableObjects = {
@@ -39,6 +42,8 @@ GameManager::GameManager(RenderWindow& window)
 	AddEntity(CollisionLayers::Players, player);
 
 	player->SetPosition(128, 64);
+
+	collisionManager->AddCollidableEntity(player);
 }
 
 GameManager::~GameManager()
@@ -57,7 +62,10 @@ void GameManager::Update(float deltaTime)
 void GameManager::UpdateEntities(float deltaTime, CollisionLayers layer)
 {
 	for (int i = 0; i < entities[layer].size(); i++)
+	{
+		Vector2f prevPos = entities[layer][i]->GetPosition();
 		entities[layer][i]->Update(deltaTime);
+	}
 }
 
 void GameManager::Draw()

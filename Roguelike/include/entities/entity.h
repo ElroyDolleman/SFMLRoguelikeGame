@@ -14,6 +14,10 @@ public:
 
 	virtual void SetPosition(float x, float y);
 	virtual void SetPosition(const Vector2f& newPosition);
+	virtual void SetXPosition(float x);
+	virtual void SetYPosition(float y);
+
+	const Vector2f& GetPosition() const;
 
 	virtual bool Intersects() const = 0;
 

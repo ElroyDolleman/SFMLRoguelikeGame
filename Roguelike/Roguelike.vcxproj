@@ -155,6 +155,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\collision\aabb.h" />
+    <ClInclude Include="include\collision\collidable.h" />
+    <ClInclude Include="include\collision\collisionmanager.h" />
     <ClInclude Include="include\constants.h" />
     <ClInclude Include="include\entities\enemy.h" />
     <ClInclude Include="include\entities\entity.h" />
@@ -176,6 +179,9 @@
     <ClInclude Include="include\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\collision\aabb.cpp" />
+    <ClCompile Include="source\collision\collidable.cpp" />
+    <ClCompile Include="source\collision\collisionmanager.cpp" />
     <ClCompile Include="source\managers\contentloader.cpp" />
     <ClCompile Include="source\map\room.cpp" />
     <ClCompile Include="main.cpp" />

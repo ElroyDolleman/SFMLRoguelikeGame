@@ -32,6 +32,7 @@ private:
 
 	RenderWindow& window;
 
+	CollisionManager* collisionManager;
 	ContentLoader* contentLoader;
 	RoomLoader* roomLoader;
 

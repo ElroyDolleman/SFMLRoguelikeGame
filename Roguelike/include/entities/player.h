@@ -1,9 +1,9 @@
 #pragma once
 #include "fwd.h"
-#include "entities\entity.h"
+#include "collision\collidable.h"
 #include "interfaces\damageable.h"
 
-class Player : public Entity, public IDamageable
+class Player : public CollidableEntity, public IDamageable
 {
 public:
 
@@ -27,6 +27,7 @@ public:
 	const BaseWeapon* GetWeapon() const;
 
 	virtual bool Intersects() const override;
+	virtual AABB GetHitbox() const override;
 	virtual bool IntersectsHurtbox() const override;
 
 	virtual void Update(float deltaTime) override;
@@ -49,4 +50,6 @@ protected:
 	BaseWeapon* currentWeapon;
 
 	const float diagonalSpeedMultiplier = 0.7071f;
+
+	AABB localHitbox;
 };

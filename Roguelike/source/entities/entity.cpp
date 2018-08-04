@@ -31,6 +31,21 @@ void Entity::SetPosition(const Vector2f& newPosition)
 	sprite.setPosition(newPosition);
 }
 
+void Entity::SetXPosition(float x)
+{
+	SetPosition(x, sprite.getPosition().y);
+}
+
+void Entity::SetYPosition(float y)
+{
+	SetPosition(sprite.getPosition().x, y);
+}
+
+const Vector2f& Entity::GetPosition() const
+{
+	return sprite.getPosition();
+}
+
 void Entity::Draw(RenderWindow& window)
 {
 	window.draw(sprite);

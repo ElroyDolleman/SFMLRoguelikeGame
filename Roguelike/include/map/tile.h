@@ -1,13 +1,14 @@
 #pragma once
 #include "graphics\tileset.h"
+#include "collision\aabb.h"
 
 class Tile
 {
 public:
 
-	Tile(IntRect hitbox);
-	Tile(IntRect hitbox, Tileset background);
-	Tile(IntRect hitbox, Tileset background, json tilesetData);
+	Tile(AABB hitbox);
+	Tile(AABB hitbox, Tileset background);
+	Tile(AABB hitbox, Tileset background, json tilesetData);
 
 	void SetBackgroundSprite(Tileset sprite);
 	void SetOverlaySprite(Tileset sprite);
@@ -18,9 +19,11 @@ public:
 	Tileset& GetForegroundSprite();
 
 	Vector2f GetPosition() const;
-	const IntRect& GetHitbox() const;
+	const AABB& GetHitbox() const;
 
 	void Draw(RenderWindow& window);
+
+	bool IsSolid() const;
 
 private:
 
@@ -32,7 +35,7 @@ private:
 	bool overlayIsVisible = false;
 	bool foregroundIsVisible = false;
 
-	IntRect hitbox;
+	AABB hitbox;
 
 	bool isSolid = false;
 };

@@ -25,3 +25,8 @@ class IDamageable;
 // Graphics
 class TileSet;
 class SpriteAnimation;
+
+// Collision
+class CollidableEntity;
+class CollisionManager;
+class AABB;

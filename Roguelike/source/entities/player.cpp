@@ -7,7 +7,7 @@
 bool Player::PlayWithController = true;
 
 Player::Player(SpriteAnimation sprite)
-	: Entity(sprite)
+	: CollidableEntity(sprite)
 {
 	this->sprite.addAnimation(PlayerAnimations::Idle, 200.0f, 0, 0);
 	this->sprite.addAnimation(PlayerAnimations::WalkUp, 200.0f, 2, 3);
@@ -22,6 +22,8 @@ Player::Player(SpriteAnimation sprite)
 		printf("Warning: Joystick is not connected or recognized.");
 #endif
 	}
+
+	localHitbox = { 0, 0, 16, 16 };
 }
 
 Player::~Player()
@@ -42,6 +44,17 @@ const BaseWeapon* Player::GetWeapon() const
 bool Player::Intersects() const
 {
 	return false;
+}
+
+AABB Player::GetHitbox() const
+{
+	AABB globalHitbox = localHitbox;
+	const Vector2f& pos = GetPosition();
+
+	globalHitbox.left = (int)pos.x + localHitbox.left;
+	globalHitbox.top = (int)pos.y + localHitbox.top;
+
+	return globalHitbox;
 }
 
 bool Player::IntersectsHurtbox() const
@@ -174,7 +187,7 @@ void Player::Move(float x, float y)
 			sprite.switchToAnimation(PlayerAnimations::WalkUp);
 	}
 
-	Entity::Move(x, y);
+	CollidableEntity::Move(x, y);
 }
 
 void Player::Draw(RenderWindow& window)
