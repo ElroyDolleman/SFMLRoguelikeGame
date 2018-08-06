@@ -14,20 +14,20 @@ AABB Slime::GetAABBCollider() const
 	AABB globalHitbox = localHitbox;
 	const Vector2f& pos = GetPosition();
 
-	globalHitbox.left = (int)pos.x + localHitbox.left;
-	globalHitbox.top = (int)pos.y + localHitbox.top;
+	globalHitbox.left = static_cast<int>(roundf(pos.x)) + localHitbox.left;
+	globalHitbox.top = static_cast<int>(roundf(pos.y)) + localHitbox.top;
 
 	return globalHitbox;
 }
 
 void Slime::SetCollidablePositionX(float xPos)
 {
-	SetXPosition(xPos);
+	SetXPosition(xPos - localHitbox.left);
 }
 
 void Slime::SetCollidablePositionY(float yPos)
 {
-	SetYPosition(yPos);
+	SetYPosition(yPos - localHitbox.top);
 }
 
 bool Slime::IntersectsHurtbox() const
@@ -56,8 +56,15 @@ void Slime::Update(float deltaTime)
 		if (target == nullptr)
 			printf("Warning: Slime is trying to follow a nullptr target.\n");
 		else
+		{
 #endif
-		MoveTowards((Vector2f)target->GetAABBHurtbox().getCenter(), speed * deltaTime);
+			Vector2f targetCenter = (Vector2f)target->GetAABBHurtbox().getCenter();
+			Vector2f myCenter = (Vector2f)localHitbox.getCenter();
+
+			MoveTowards(targetCenter.x - myCenter.x, targetCenter.y - myCenter.y, speed * deltaTime);
+#if _DEBUG
+		}
+#endif
 	}
 }
 
@@ -71,11 +78,6 @@ void Slime::Move(float x, float y)
 	ICollidable::UpdateYCollision(y);
 }
 
-void Slime::MoveTowards(Vector2f destination, float speed)
-{
-	Entity::MoveTowards(destination, speed);
-}
-
 void Slime::SetTarget(IDamageable* target)
 {
 	hasTarget = true;
@@ -86,4 +88,20 @@ void Slime::LoseTarget()
 {
 	target = nullptr;
 	hasTarget = false;
+}
+
+void Slime::Draw(RenderWindow& window)
+{
+	Entity::Draw(window);
+
+	// Draw Hitbox
+/*#if _DEBUG
+	RectangleShape visualHitbox;
+	AABB aabb = GetAABBCollider();
+	visualHitbox.setSize((Vector2f)localHitbox.getSize());
+	visualHitbox.setFillColor(Color(255, 0, 0, 200));
+	visualHitbox.setPosition((float)aabb.left, (float)aabb.top);
+
+	window.draw(visualHitbox);
+	#endif*/
 }

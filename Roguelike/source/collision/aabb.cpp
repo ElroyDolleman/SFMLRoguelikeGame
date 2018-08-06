@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "collision\aabb.h"
+#include "..\..\include\collision\aabb.h"
 
 AABB::AABB()
 {
@@ -70,4 +71,9 @@ int AABB::getRight() const
 int AABB::getBottom() const
 {
 	return top + height;
+}
+
+Vector2i AABB::getSize() const
+{
+	return Vector2i(width, height);
 }

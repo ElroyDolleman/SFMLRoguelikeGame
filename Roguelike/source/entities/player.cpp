@@ -52,8 +52,8 @@ AABB Player::GetAABBCollider() const
 	AABB globalHitbox = localHitbox;
 	const Vector2f& pos = GetPosition();
 
-	globalHitbox.left = (int)pos.x + localHitbox.left;
-	globalHitbox.top = (int)pos.y + localHitbox.top;
+	globalHitbox.left = static_cast<int>(roundf(pos.x)) + localHitbox.left;
+	globalHitbox.top = static_cast<int>(roundf(pos.y)) + localHitbox.top;
 
 	return globalHitbox;
 }
@@ -207,4 +207,14 @@ void Player::Move(float x, float y)
 void Player::Draw(RenderWindow& window)
 {
 	Entity::Draw(window);
+
+#if _DEBUG
+	RectangleShape visualHitbox;
+	AABB aabb = GetAABBCollider();
+	visualHitbox.setSize((Vector2f)localHitbox.getSize());
+	visualHitbox.setFillColor(Color(255, 146, 0, 152));
+	visualHitbox.setPosition((float)aabb.left, (float)aabb.top);
+
+	window.draw(visualHitbox);
+#endif
 }

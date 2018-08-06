@@ -23,14 +23,19 @@ void Entity::MoveInAngle(float angle, float speed)
 
 void Entity::MoveTowards(Vector2f destination, float speed)
 {
+	MoveTowards(destination.x, destination.y, speed);
+}
+
+void Entity::MoveTowards(float destinationX, float destinationY, float speed)
+{
 	const Vector2f& pos = GetPosition();
-	float angle = atan2(destination.y - pos.y, destination.x - pos.x);
+	float angle = atan2(destinationY - pos.y, destinationX - pos.x);
 	MoveInAngle(angle, speed);
 }
 
 void Entity::SetPosition(float x, float y)
 {
-	sprite.setPosition(x, y);
+	SetPosition({ x, y });
 }
 
 void Entity::SetPosition(const Vector2f& newPosition)

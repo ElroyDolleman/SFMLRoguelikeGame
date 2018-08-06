@@ -21,7 +21,7 @@ public:
 	// Entity override functions
 	virtual void Update(float deltaTime) override;
 	virtual void Move(float x, float y) override;
-	virtual void MoveTowards(Vector2f destination, float speed) override;
+	virtual void Draw(RenderWindow& window) override;
 
 	// Enemy override functions
 	virtual void SetTarget(IDamageable* target) override;
@@ -32,7 +32,7 @@ protected:
 	const int LeftAnimation = 0;
 	const int RightAnimation = 1;
 
-	float speed = 8;
+	float speed = 12;
 	AABB localHitbox;
 
 	bool hasTarget = false;

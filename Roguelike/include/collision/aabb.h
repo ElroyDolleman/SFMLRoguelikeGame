@@ -21,6 +21,8 @@ public:
 	int getRight() const;
 	int getBottom() const;
 
+	Vector2i getSize() const;
+
 private:
 
 
