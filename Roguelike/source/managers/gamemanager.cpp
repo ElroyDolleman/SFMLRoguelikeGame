@@ -6,6 +6,7 @@
 #include "interfaces\damageable.h"
 #include "entities\Entity.h"
 #include "entities\Player.h"
+#include "entities\enemies\slime.h"
 #include "map\roomloader.h"
 
 #if _DEBUG
@@ -48,6 +49,16 @@ GameManager::GameManager(RenderWindow& window)
 	player->SetPosition(128, 64);
 
 	collisionManager->AddCollidableEntity(player);
+
+	// Adding a test slime enemy
+	Slime* slime = new Slime(SpriteAnimation(contentLoader->LoadTexture("slime_enemy.png"), 64, 16, 16, 16));
+	slime->SetTarget(player);
+
+	slime->SetPosition(160, 160);
+
+	AddEntity(CollisionLayers::Enemies, slime);
+
+	collisionManager->AddCollidableEntity(slime);
 }
 
 GameManager::~GameManager()

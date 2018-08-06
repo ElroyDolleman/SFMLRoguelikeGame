@@ -37,6 +37,11 @@ void Player::Damage(int damage)
 	health -= damage;
 }
 
+AABB Player::GetAABBHurtbox() const
+{
+	return GetAABBCollider();
+}
+
 const BaseWeapon* Player::GetWeapon() const
 {
 	return currentWeapon;

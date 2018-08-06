@@ -27,25 +27,25 @@ public:
 
 	// ICollidable override functions
 	virtual AABB GetAABBCollider() const override;
-	virtual void SetCollidablePositionX(float yPos) override;
+	virtual void SetCollidablePositionX(float xPos) override;
 	virtual void SetCollidablePositionY(float yPos) override;
 
 	// IDamageable override functions
 	virtual bool IntersectsHurtbox() const override;
 	virtual void Damage(int damage) override;
+	virtual AABB GetAABBHurtbox() const;
 
+	// Entity override functions
 	virtual void Update(float deltaTime) override;
-
-	virtual void UpdateJoystickInput(float deltaTime);
-	virtual void UpdateKeyboardInput(float deltaTime);
-
-	void GetDirectionBasedOnInput(float& xDirection, float& yDirection, bool up, bool down, bool left, bool right) const;
-
 	virtual void Move(float x, float y) override;
-
 	virtual void Draw(RenderWindow& window) override;
 
 protected:
+
+	// Input functions
+	virtual void UpdateJoystickInput(float deltaTime);
+	virtual void UpdateKeyboardInput(float deltaTime);
+	virtual void GetDirectionBasedOnInput(float& xDirection, float& yDirection, bool up, bool down, bool left, bool right) const;
 
 	bool inputEnabled = true;
 

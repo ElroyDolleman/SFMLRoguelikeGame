@@ -11,6 +11,7 @@ public:
 	virtual void Move(Vector2f direction);
 
 	virtual void MoveInAngle(float angle, float speed);
+	virtual void MoveTowards(Vector2f destination, float speed);
 
 	virtual void SetPosition(float x, float y);
 	virtual void SetPosition(const Vector2f& newPosition);

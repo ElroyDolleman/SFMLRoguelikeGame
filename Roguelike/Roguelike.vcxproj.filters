@@ -84,6 +84,9 @@
     <ClInclude Include="include\debugging\debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\entities\enemies\Slime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -132,6 +135,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\debugging\debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\entities\enemies\Slime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
