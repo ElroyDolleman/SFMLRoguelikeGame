@@ -2,35 +2,17 @@
 #include "collision\collidable.h"
 
 #include "collision\collisionmanager.h"
-#include "graphics\spriteanimation.h"
 
-CollidableEntity::CollidableEntity(SpriteAnimation sprite)
-	: Entity(sprite)
+ICollidable::ICollidable()
 {
-	
 }
 
-void CollidableEntity::Move(float x, float y)
+void ICollidable::UpdateXCollision(float movedAmout)
 {
-	MoveX(x);
-	MoveY(y);
-}
+	// No need for collision checks if there was no movement
+	if (movedAmout == 0) return;
 
-void CollidableEntity::Move(Vector2f direction)
-{
-	Move(direction.x, direction.y);
-}
-
-void CollidableEntity::MoveInAngle(float angle, float speed)
-{
-	MoveX(cos(angle) * speed);
-	MoveY(sin(angle) * speed);
-}
-
-void CollidableEntity::MoveX(float amount)
-{
-	if (amount == 0)
-		return;
+	// Checks if this collidable is 
 #if _DEBUG
 	if (collisionManager == nullptr)
 	{
@@ -38,14 +20,17 @@ void CollidableEntity::MoveX(float amount)
 		return;
 	}
 #endif
-	sprite.move(amount, 0);
-	collisionManager->UpdateCollision(this, { amount, 0 });
+
+	// Update the collision checks in the collision manager
+	collisionManager->UpdateCollision(this, { movedAmout, 0 });
 }
 
-void CollidableEntity::MoveY(float amount)
+void ICollidable::UpdateYCollision(float movedAmout)
 {
-	if (amount == 0)
-		return;
+	// No need for collision checks if there was no movement
+	if (movedAmout == 0) return;
+
+	// Checks if this collidable is 
 #if _DEBUG
 	if (collisionManager == nullptr)
 	{
@@ -53,6 +38,7 @@ void CollidableEntity::MoveY(float amount)
 		return;
 	}
 #endif
-	sprite.move(0, amount);
-	collisionManager->UpdateCollision(this, { 0, amount });
+
+	// Update the collision checks in the collision manager
+	collisionManager->UpdateCollision(this, { 0, movedAmout });
 }

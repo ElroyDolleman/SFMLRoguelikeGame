@@ -1,9 +1,10 @@
 #pragma once
 #include "fwd.h"
+#include "entities\entity.h"
 #include "collision\collidable.h"
 #include "interfaces\damageable.h"
 
-class Player : public CollidableEntity, public IDamageable
+class Player : public Entity, public ICollidable, public IDamageable
 {
 public:
 
@@ -22,13 +23,16 @@ public:
 	Player(SpriteAnimation sprite);
 	~Player();
 
-	void Damage(int damage) override;
-
 	const BaseWeapon* GetWeapon() const;
 
-	virtual bool Intersects() const override;
-	virtual AABB GetHitbox() const override;
+	// ICollidable override functions
+	virtual AABB GetAABBCollider() const override;
+	virtual void SetCollidablePositionX(float yPos) override;
+	virtual void SetCollidablePositionY(float yPos) override;
+
+	// IDamageable override functions
 	virtual bool IntersectsHurtbox() const override;
+	virtual void Damage(int damage) override;
 
 	virtual void Update(float deltaTime) override;
 

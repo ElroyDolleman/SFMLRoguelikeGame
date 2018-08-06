@@ -27,6 +27,6 @@ class TileSet;
 class SpriteAnimation;
 
 // Collision
-class CollidableEntity;
+class ICollidable;
 class CollisionManager;
 class AABB;

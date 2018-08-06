@@ -10,15 +10,15 @@ public:
 
 	void ChangeRoom(Room* newRoom);
 
-	void AddCollidableEntity(CollidableEntity* entity);
+	void AddCollidableEntity(ICollidable* entity);
 
-	void UpdateCollision(CollidableEntity* entity, const Vector2f moved);
+	void UpdateCollision(ICollidable* entity, const Vector2f moved);
 
 private:
 
-	void SolveCollisionHorizontal(CollidableEntity* entity, const AABB& collider);
-	void SolveCollisionVertical(CollidableEntity* entity, const AABB& collider);
+	void SolveCollisionHorizontal(ICollidable* entity, const AABB& collider);
+	void SolveCollisionVertical(ICollidable* entity, const AABB& collider);
 
-	map<int, CollidableEntity*> entities;
+	map<int, ICollidable*> entities;
 	Room* currentRoom;
 };

@@ -8,6 +8,10 @@
 #include "entities\Player.h"
 #include "map\roomloader.h"
 
+#if _DEBUG
+#include "debugging\debug.h"
+#endif
+
 GameManager::GameManager(RenderWindow& window)
 	: window(window)
 {
@@ -77,6 +81,10 @@ void GameManager::Draw()
 	DrawEntities(CollisionLayers::Objects);
 	DrawEntities(CollisionLayers::Enemies);
 	DrawEntities(CollisionLayers::Players);
+
+#if _DEBUG
+	//Debug::DrawScreenMessage(window, "Hello World!", 0, 0);
+#endif
 }
 
 void GameManager::DrawEntities(CollisionLayers layer)

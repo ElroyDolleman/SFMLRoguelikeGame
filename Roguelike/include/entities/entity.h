@@ -19,7 +19,7 @@ public:
 
 	const Vector2f& GetPosition() const;
 
-	virtual bool Intersects() const = 0;
+	//virtual bool Intersects() const = 0;
 
 	virtual void Update(float deltaTime) = 0;
 	virtual void Draw(RenderWindow& window);

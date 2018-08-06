@@ -6,7 +6,7 @@ class Projectile : public Entity
 {
 public:
 
-	virtual bool Intersects() const override;
+	//virtual bool Intersects() const override;
 
 	virtual void Update(float deltaTime) override;
 };

@@ -7,7 +7,7 @@
 bool Player::PlayWithController = true;
 
 Player::Player(SpriteAnimation sprite)
-	: CollidableEntity(sprite)
+	: Entity(sprite)
 {
 	this->sprite.addAnimation(PlayerAnimations::Idle, 200.0f, 0, 0);
 	this->sprite.addAnimation(PlayerAnimations::WalkUp, 200.0f, 2, 3);
@@ -34,6 +34,7 @@ Player::~Player()
 
 void Player::Damage(int damage)
 {
+	health -= damage;
 }
 
 const BaseWeapon* Player::GetWeapon() const
@@ -41,12 +42,7 @@ const BaseWeapon* Player::GetWeapon() const
 	return currentWeapon;
 }
 
-bool Player::Intersects() const
-{
-	return false;
-}
-
-AABB Player::GetHitbox() const
+AABB Player::GetAABBCollider() const
 {
 	AABB globalHitbox = localHitbox;
 	const Vector2f& pos = GetPosition();
@@ -55,6 +51,16 @@ AABB Player::GetHitbox() const
 	globalHitbox.top = (int)pos.y + localHitbox.top;
 
 	return globalHitbox;
+}
+
+void Player::SetCollidablePositionX(float xPos)
+{
+	SetXPosition(xPos);
+}
+
+void Player::SetCollidablePositionY(float yPos)
+{
+	SetYPosition(yPos);
 }
 
 bool Player::IntersectsHurtbox() const
@@ -187,7 +193,10 @@ void Player::Move(float x, float y)
 			sprite.switchToAnimation(PlayerAnimations::WalkUp);
 	}
 
-	CollidableEntity::Move(x, y);
+	Entity::Move(x, 0);
+	ICollidable::UpdateXCollision(x);
+	Entity::Move(0, y);
+	ICollidable::UpdateYCollision(y);
 }
 
 void Player::Draw(RenderWindow& window)

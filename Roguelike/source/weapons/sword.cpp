@@ -10,10 +10,10 @@ bool Sword::IsAttacking() const
 	return false;
 }
 
-bool Sword::Intersects() const
-{
-	return false;
-}
+//bool Sword::Intersects() const
+//{
+//	return false;
+//}
 
 void Sword::Update(float deltaTime)
 {

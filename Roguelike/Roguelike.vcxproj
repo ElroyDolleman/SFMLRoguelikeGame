@@ -159,6 +159,7 @@
     <ClInclude Include="include\collision\collidable.h" />
     <ClInclude Include="include\collision\collisionmanager.h" />
     <ClInclude Include="include\constants.h" />
+    <ClInclude Include="include\debugging\debug.h" />
     <ClInclude Include="include\entities\enemy.h" />
     <ClInclude Include="include\entities\entity.h" />
     <ClInclude Include="include\entities\player.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="source\collision\aabb.cpp" />
     <ClCompile Include="source\collision\collidable.cpp" />
     <ClCompile Include="source\collision\collisionmanager.cpp" />
+    <ClCompile Include="source\debugging\debug.cpp" />
     <ClCompile Include="source\managers\contentloader.cpp" />
     <ClCompile Include="source\map\room.cpp" />
     <ClCompile Include="main.cpp" />

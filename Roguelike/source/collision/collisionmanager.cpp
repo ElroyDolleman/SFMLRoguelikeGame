@@ -19,16 +19,16 @@ void CollisionManager::ChangeRoom(Room* newRoom)
 	currentRoom = newRoom;
 }
 
-void CollisionManager::AddCollidableEntity(CollidableEntity* entity)
+void CollisionManager::AddCollidableEntity(ICollidable* collidable)
 {
-	entity->collisionManager = this;
+	collidable->collisionManager = this;
 
 	int size = (int)entities.size();
-	entities[size] = entity;
-	entity->collidableID = size;
+	entities[size] = collidable;
+	collidable->collidableID = size;
 }
 
-void CollisionManager::UpdateCollision(CollidableEntity* entity, const Vector2f moved)
+void CollisionManager::UpdateCollision(ICollidable* collidable, const Vector2f moved)
 {
 #if _DEBUG
 	if (moved.x == 0 && moved.y == 0)
@@ -43,7 +43,7 @@ void CollisionManager::UpdateCollision(CollidableEntity* entity, const Vector2f 
 	}
 #endif
 
-	const AABB& entityBox = entity->GetHitbox();
+	const AABB& entityBox = collidable->GetAABBCollider();
 
 	// Get the top left tile that the entity is overlapping
 	Vector2i gridLocTop = currentRoom->ToGridLocation(entityBox.left, entityBox.top);
@@ -66,33 +66,33 @@ void CollisionManager::UpdateCollision(CollidableEntity* entity, const Vector2f 
 			if (tileBox.intersects(entityBox))
 			{
 				if (moved.x != 0)
-					SolveCollisionHorizontal(entity, tileBox);
+					SolveCollisionHorizontal(collidable, tileBox);
 				if (moved.y != 0)
-					SolveCollisionVertical(entity, tileBox);
+					SolveCollisionVertical(collidable, tileBox);
 			}
 		}
 	}
 
 }
 
-void CollisionManager::SolveCollisionHorizontal(CollidableEntity* entity, const AABB& collider)
+void CollisionManager::SolveCollisionHorizontal(ICollidable* collidable, const AABB& collider)
 {
-	const AABB& entityBox = entity->GetHitbox();
+	const AABB& entityBox = collidable->GetAABBCollider();
 	int depth = collider.getXDepth(entityBox);
 
 	if (collider.isOnLeftOf(entityBox))
-		entity->SetXPosition((float)entityBox.left + depth);
+		collidable->SetCollidablePositionX((float)entityBox.left + depth);
 	else
-		entity->SetXPosition((float)entityBox.left - depth);
+		collidable->SetCollidablePositionX((float)entityBox.left - depth);
 }
 
-void CollisionManager::SolveCollisionVertical(CollidableEntity* entity, const AABB& collider)
+void CollisionManager::SolveCollisionVertical(ICollidable* collidable, const AABB& collider)
 {
-	const AABB& entityBox = entity->GetHitbox();
+	const AABB& entityBox = collidable->GetAABBCollider();
 	int depth = collider.getYDepth(entityBox);
 
 	if (collider.isAbove(entityBox))
-		entity->SetYPosition((float)entityBox.top + depth);
+		collidable->SetCollidablePositionY((float)entityBox.top + depth);
 	else
-		entity->SetYPosition((float)entityBox.top - depth);
+		collidable->SetCollidablePositionY((float)entityBox.top - depth);
 }
