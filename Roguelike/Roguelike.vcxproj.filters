@@ -140,5 +140,8 @@
     <ClCompile Include="source\entities\enemies\Slime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\weapons\baseweapon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

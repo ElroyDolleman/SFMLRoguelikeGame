@@ -23,7 +23,10 @@ public:
 	Player(SpriteAnimation sprite);
 	~Player();
 
+	void ObtainWeapon(BaseWeapon* newWeapon);
 	const BaseWeapon* GetWeapon() const;
+	bool HasWeapon() const;
+	Vector2f GetWeaponOffset() const;
 
 	// ICollidable override functions
 	virtual AABB GetAABBCollider() const override;
@@ -47,10 +50,14 @@ protected:
 	virtual void UpdateKeyboardInput(float deltaTime);
 	virtual void GetDirectionBasedOnInput(float& xDirection, float& yDirection, bool up, bool down, bool left, bool right) const;
 
+	virtual Vector2i GetDirectionBasedOnAnimation() const;
+
 	bool inputEnabled = true;
 
 	int health;
 	int movementSpeed = 128;
+
+	bool hasWeapon = false;
 	BaseWeapon* currentWeapon;
 
 	const float diagonalSpeedMultiplier = 0.7071f;

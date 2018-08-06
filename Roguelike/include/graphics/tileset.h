@@ -17,8 +17,11 @@ public:
 	void setImagetHeight(int height);
 	void setImageSize(const Vector2i& size);
 
-	void setMargin(int margin);
-	void setSpacing(int spacing);
+	void setMargin(const Vector2i& margin);
+	void setMargin(int marginX, int marginY);
+
+	void setSpacing(const Vector2i& spacing);
+	void setSpacing(int spacingX, int spacingY);
 
 	void setTileNumber(int n);
 
@@ -30,8 +33,8 @@ public:
 	int getImageHeight() const;
 	const Vector2i& getImageSize() const;
 
-	int getMargin() const;
-	int getSpacing() const;
+	const Vector2i& getMargin() const;
+	const Vector2i& getSpacing() const;
 
 	int getTileNumber() const;
 
@@ -40,8 +43,8 @@ protected:
 	int tileNumber = 0;
 	Vector2i tileSize = { 0, 0 };
 	Vector2i imageSize = { 0, 0 };
-	int spacing = 0;
-	int margin = 0;
+	Vector2i spacing = { 0, 0 };
+	Vector2i margin = { 0, 0 };
 
 	void updateTextureRect();
 };

@@ -42,9 +42,64 @@ AABB Player::GetAABBHurtbox() const
 	return GetAABBCollider();
 }
 
+void Player::ObtainWeapon(BaseWeapon* newWeapon)
+{
+	// TODO: Think about what will happen with the old weapon
+
+	if (hasWeapon)
+		currentWeapon = nullptr;
+
+	currentWeapon = newWeapon;
+	hasWeapon = true;
+
+	currentWeapon->SetOwner(this);
+	currentWeapon->SetOffset(GetWeaponOffset());
+}
+
 const BaseWeapon* Player::GetWeapon() const
 {
 	return currentWeapon;
+}
+
+bool Player::HasWeapon() const
+{
+#if _DEBUG
+	if (hasWeapon && currentWeapon == nullptr)
+	{
+		printf("Warning: player class attempts to return it has a weapon but it does not.\n");
+		return false;
+	}
+#endif
+
+	return hasWeapon;
+}
+
+Vector2f Player::GetWeaponOffset() const
+{
+	const Vector2i& dir = GetDirectionBasedOnAnimation();
+
+	if (dir.y < 0)
+	{
+		currentWeapon->SetRotation(270);
+		return { 12, 4 };
+	}
+	if (dir.y > 0)
+	{
+		currentWeapon->SetRotation(90);
+		return { 12, 10 };
+	}
+	if (dir.x > 0)
+	{
+		currentWeapon->SetRotation(0);
+		return { 10, 12 };
+	}
+	if (dir.x < 0)
+	{
+		currentWeapon->SetRotation(180);
+		return { 6, 12 };
+	}
+
+	return Vector2f();
 }
 
 AABB Player::GetAABBCollider() const
@@ -86,6 +141,13 @@ void Player::Update(float deltaTime)
 
 	// Update the sprite animation
 	sprite.update(deltaTime);
+
+	// Update the weapon
+	if (hasWeapon)
+	{
+		currentWeapon->SetOffset(GetWeaponOffset());
+		currentWeapon->Update(deltaTime);
+	}
 }
 
 void Player::UpdateJoystickInput(float deltaTime)
@@ -93,7 +155,7 @@ void Player::UpdateJoystickInput(float deltaTime)
 	if (!Joystick::isConnected(0))
 	{
 #if _DEBUG
-		printf("Warning: Joystick is disconnected.");
+		printf("Warning: Joystick is disconnected.\n");
 #endif
 		PlayWithController = false;
 		return;
@@ -176,6 +238,30 @@ void Player::GetDirectionBasedOnInput(float& xDirection, float& yDirection, bool
 		yDirection = 1.f;
 }
 
+Vector2i Player::GetDirectionBasedOnAnimation() const
+{
+	PlayerAnimations currentAnimation = (PlayerAnimations)sprite.getCurrentAnimationKey();
+
+	switch (currentAnimation)
+	{
+	case Player::Idle:
+	case Player::Attack:
+	case Player::WalkDown:
+	default:
+		return { 0, 1 };
+		break;
+	case Player::WalkLeft:
+		return { -1, 0 };
+		break;
+	case Player::WalkRight:
+		return { 1, 0 };
+		break;
+	case Player::WalkUp:
+		return { 0, -1 };
+		break;
+	}
+}
+
 void Player::Move(float x, float y)
 {
 	if (x == 0 && y == 0)
@@ -208,13 +294,17 @@ void Player::Draw(RenderWindow& window)
 {
 	Entity::Draw(window);
 
-#if _DEBUG
-	RectangleShape visualHitbox;
-	AABB aabb = GetAABBCollider();
-	visualHitbox.setSize((Vector2f)localHitbox.getSize());
-	visualHitbox.setFillColor(Color(255, 146, 0, 152));
-	visualHitbox.setPosition((float)aabb.left, (float)aabb.top);
+	if (hasWeapon)
+		currentWeapon->Draw(window);
 
-	window.draw(visualHitbox);
-#endif
+	// Draws the hitbox
+//#if _DEBUG
+//	RectangleShape visualHitbox;
+//	AABB aabb = GetAABBCollider();
+//	visualHitbox.setSize((Vector2f)localHitbox.getSize());
+//	visualHitbox.setFillColor(Color(255, 146, 0, 152));
+//	visualHitbox.setPosition((float)aabb.left, (float)aabb.top);
+//
+//	window.draw(visualHitbox);
+//#endif
 }

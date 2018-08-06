@@ -8,6 +8,7 @@
 #include "entities\Player.h"
 #include "entities\enemies\slime.h"
 #include "map\roomloader.h"
+#include "weapons\sword.h"
 
 #if _DEBUG
 #include "debugging\debug.h"
@@ -59,6 +60,13 @@ GameManager::GameManager(RenderWindow& window)
 	AddEntity(CollisionLayers::Enemies, slime);
 
 	collisionManager->AddCollidableEntity(slime);
+
+	// Giving the player a sword
+	SpriteAnimation swordSprite = SpriteAnimation(contentLoader->LoadTexture("playersheet.png"), 32, 16, 16, 16);
+	swordSprite.setMargin(32, 0);
+	Sword* sword = new Sword(swordSprite);
+
+	player->ObtainWeapon(sword);
 }
 
 GameManager::~GameManager()

@@ -53,9 +53,24 @@ void Entity::SetYPosition(float y)
 	SetPosition(sprite.getPosition().x, y);
 }
 
+void Entity::SetRotation(float rotation)
+{
+	sprite.setRotation(rotation);
+}
+
+void Entity::Rotate(float amount)
+{
+	sprite.rotate(amount);
+}
+
 const Vector2f& Entity::GetPosition() const
 {
 	return sprite.getPosition();
+}
+
+float Entity::GetRotation() const
+{
+	return sprite.getRotation();
 }
 
 void Entity::Draw(RenderWindow& window)

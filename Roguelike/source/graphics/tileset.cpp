@@ -29,8 +29,12 @@ Tileset::Tileset(const Texture& texture, const json& sheetData)
 {
 	imageSize = { sheetData["imagewidth"].get<int>(), sheetData["imageheight"].get<int>() };
 	tileSize = { sheetData["tilewidth"].get<int>(), sheetData["tileheight"].get<int>() };
-	spacing = sheetData["spacing"].get<int>();
-	margin = sheetData["margin"].get<int>();
+
+	int s = sheetData["spacing"].get<int>();
+	spacing = { s, s };
+
+	int m = sheetData["margin"].get<int>();
+	margin = { m, m };
 }
 
 void Tileset::setTileWidth(int width)
@@ -69,16 +73,26 @@ void Tileset::setImageSize(const Vector2i & size)
 	updateTextureRect();
 }
 
-void Tileset::setMargin(int margin)
+void Tileset::setMargin(const Vector2i & margin)
 {
 	this->margin = margin;
 	updateTextureRect();
 }
 
-void Tileset::setSpacing(int spacing)
+void Tileset::setMargin(int marginX, int marginY)
+{
+	setMargin({ marginX, marginY });
+}
+
+void Tileset::setSpacing(const Vector2i& spacing)
 {
 	this->spacing = spacing;
 	updateTextureRect();
+}
+
+void Tileset::setSpacing(int spacingX, int spacingY)
+{
+	setSpacing({ spacingX, spacingY });
 }
 
 void Tileset::setTileNumber(int n)
@@ -117,12 +131,12 @@ const Vector2i& Tileset::getImageSize() const
 	return imageSize;
 }
 
-int Tileset::getMargin() const
+const Vector2i& Tileset::getMargin() const
 {
 	return margin;
 }
 
-int Tileset::getSpacing() const
+const Vector2i& Tileset::getSpacing() const
 {
 	return spacing;
 }
@@ -134,12 +148,12 @@ int Tileset::getTileNumber() const
 
 void Tileset::updateTextureRect()
 {
-	int tilesPerRow = imageSize.x / (tileSize.x + spacing);
+	int tilesPerRow = imageSize.x / (tileSize.x + spacing.x);
 
 	IntRect newTextureRect = { 0, 0, tileSize.x, tileSize.y };
 
-	newTextureRect.left = margin + tileNumber % tilesPerRow * (tileSize.x + spacing);
-	newTextureRect.top = margin + (int)floor(tileNumber / tilesPerRow) * (tileSize.y + spacing);
+	newTextureRect.left = margin.x + tileNumber % tilesPerRow * (tileSize.x + spacing.x);
+	newTextureRect.top = margin.y + (int)floor(tileNumber / tilesPerRow) * (tileSize.y + spacing.y);
 
 	setTextureRect(newTextureRect);
 }

@@ -35,6 +35,11 @@ void SpriteAnimation::addAnimation(int animKey, float interval, vector<int> fram
 	animationCount++;
 }
 
+int SpriteAnimation::getCurrentAnimationKey() const
+{
+	return currentAnimation;
+}
+
 void SpriteAnimation::switchToAnimation(int animKey)
 {
 	if (currentAnimation == animKey)

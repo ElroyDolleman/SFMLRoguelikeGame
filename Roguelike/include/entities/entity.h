@@ -19,9 +19,11 @@ public:
 	virtual void SetXPosition(float x);
 	virtual void SetYPosition(float y);
 
-	const Vector2f& GetPosition() const;
+	virtual void SetRotation(float rotation);
+	virtual void Rotate(float amount);
 
-	//virtual bool Intersects() const = 0;
+	const Vector2f& GetPosition() const;
+	float GetRotation() const;
 
 	virtual void Update(float deltaTime) = 0;
 	virtual void Draw(RenderWindow& window);
