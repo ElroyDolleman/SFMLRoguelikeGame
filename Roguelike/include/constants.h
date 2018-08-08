@@ -7,6 +7,7 @@ namespace controls
 	const Keyboard::Key LeftButton = Keyboard::A;
 	const Keyboard::Key DownButton = Keyboard::S;
 	const Keyboard::Key RightButton = Keyboard::D;
+	const Keyboard::Key AttackButton = Keyboard::Space;
 
 	const float JoystickDeadZone = 0.2f;
 }

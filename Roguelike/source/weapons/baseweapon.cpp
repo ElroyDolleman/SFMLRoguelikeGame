@@ -15,7 +15,7 @@ void BaseWeapon::SetOwner(Entity* owner)
 #if _DEBUG
 	if (owner == nullptr)
 	{
-		printf("Warning: Weapons gets a nullptr owner.\n");
+		printf("Warning: Weapon is getting a nullptr owner.\n");
 		return;
 	}
 #endif

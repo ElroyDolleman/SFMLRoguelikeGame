@@ -6,27 +6,40 @@
 
 class Player : public Entity, public ICollidable, public IDamageable
 {
-public:
-
-	enum PlayerAnimations
+protected:
+	enum FacingDirections
 	{
-		Idle,
-		WalkLeft,
-		WalkRight,
-		WalkUp,
-		WalkDown,
-		Attack,
+		Up = 0,
+		Down = 1 << 1,
+		Left = 1 << 2,
+		Right = 1 << 3,
 	};
+
+	enum States
+	{
+		Idle = 1 << 4,
+		Walking = 1 << 5,
+		Attacking = 1 << 6,
+	};
+
+public:
 
 	static bool PlayWithController;
 
 	Player(SpriteAnimation sprite);
 	~Player();
 
+	// Initialize functions
+	void CreateAnimations();
+
+	// Combat Functions
 	void ObtainWeapon(BaseWeapon* newWeapon);
 	const BaseWeapon* GetWeapon() const;
 	bool HasWeapon() const;
 	Vector2f GetWeaponOffset() const;
+
+	void StartAttack();
+	void StopAttack();
 
 	// ICollidable override functions
 	virtual AABB GetAABBCollider() const override;
@@ -45,22 +58,37 @@ public:
 
 protected:
 
-	// Input functions
-	virtual void UpdateJoystickInput(float deltaTime);
-	virtual void UpdateKeyboardInput(float deltaTime);
-	virtual void GetDirectionBasedOnInput(float& xDirection, float& yDirection, bool up, bool down, bool left, bool right) const;
-
-	virtual Vector2i GetDirectionBasedOnAnimation() const;
-
+	// Input
 	bool inputEnabled = true;
 
+	virtual void UpdateJoystickInput(float deltaTime);
+	virtual void UpdateKeyboardInput(float deltaTime);
+
+	// Movement
+	const float diagonalSpeedMultiplier = 0.7071f;
+	int movementSpeed = 80;
+
+	Vector2i GetDirectionVector(FacingDirections direction) const;
+	Vector2f GetDirectionVector(bool pressedDown, bool pressedUp, bool pressedLeft, bool pressedRight) const;
+	FacingDirections GetDirectionEnum(const Vector2i& direction) const;
+	FacingDirections GetDirectionEnum(const Vector2f& direction) const;
+	FacingDirections GetDirectionEnum(int directionX, int directionY) const;
+	FacingDirections GetDirectionEnum(float directionX, float directionY) const;
+
+	// Combat
 	int health;
-	int movementSpeed = 128;
+	bool invulnerable = false;
 
 	bool hasWeapon = false;
 	BaseWeapon* currentWeapon;
 
-	const float diagonalSpeedMultiplier = 0.7071f;
-
 	AABB localHitbox;
+
+	// State Management
+	States currentState = States::Idle;
+	FacingDirections currentFacingDirection = FacingDirections::Down;
+
+	virtual void ChangeState(States newState);
+	virtual void ChangeDirection(FacingDirections newDirection);
+	virtual void UpdateAnimation();
 };

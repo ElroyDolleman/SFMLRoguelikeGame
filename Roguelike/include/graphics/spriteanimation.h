@@ -48,19 +48,25 @@ public:
 	SpriteAnimation(const Texture& texture, int sheetWidth, int sheetHeight, int tileWidth, int tileHeight);
 	SpriteAnimation(const Texture& texture, const Vector2i& sheetSize, const Vector2i& tileSize);
 
+	void addAnimation(int animKey, float interval, int singleFrame);
 	void addAnimation(int animKey, float interval, int fromFrame, int toFrame);
 	void addAnimation(int animKey, float interval, vector<int> frames);
 
 	int getCurrentAnimationKey() const;
+	const Animation& getCurrentAnimation();
 
 	void switchToAnimation(int animKey);
 
 	void update(float deltaTime);
 
-	int getAnimationCount();
+	int getAnimationCount() const;
+	bool hasFinishedPlaying() const;
 
 	bool pause = false;
 	bool playBackwards = false;
+
+	bool IsLooping() const;
+	void SetLooping(bool loops);
 
 protected:
 
@@ -69,4 +75,6 @@ protected:
 	int animationCount = 0;
 
 	float timer = 0.0f;
+	bool finishedPlaying = false;
+	bool isLooping = true;
 };

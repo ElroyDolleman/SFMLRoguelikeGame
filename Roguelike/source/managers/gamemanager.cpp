@@ -44,7 +44,7 @@ GameManager::GameManager(RenderWindow& window)
 	};
 	
 	// Adding the player to the world
-	player = new Player(SpriteAnimation(contentLoader->LoadTexture("playersheet.png"), 32, 64, 16, 16));
+	player = new Player(SpriteAnimation(contentLoader->LoadTexture("playersheet2.png"), 66, 176, 22, 22));
 	AddEntity(CollisionLayers::Players, player);
 
 	player->SetPosition(128, 64);
@@ -62,8 +62,8 @@ GameManager::GameManager(RenderWindow& window)
 	collisionManager->AddCollidableEntity(slime);
 
 	// Giving the player a sword
-	SpriteAnimation swordSprite = SpriteAnimation(contentLoader->LoadTexture("playersheet.png"), 32, 16, 16, 16);
-	swordSprite.setMargin(32, 0);
+	SpriteAnimation swordSprite = SpriteAnimation(contentLoader->LoadTexture("playersheet2.png"), 32, 16, 16, 16);
+	swordSprite.setMargin(60, 0);
 	Sword* sword = new Sword(swordSprite);
 
 	player->ObtainWeapon(sword);

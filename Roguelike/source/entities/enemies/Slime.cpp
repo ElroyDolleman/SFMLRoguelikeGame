@@ -95,7 +95,7 @@ void Slime::Draw(RenderWindow& window)
 	Entity::Draw(window);
 
 	// Draw Hitbox
-/*#if _DEBUG
+	/*#if _DEBUG
 	RectangleShape visualHitbox;
 	AABB aabb = GetAABBCollider();
 	visualHitbox.setSize((Vector2f)localHitbox.getSize());

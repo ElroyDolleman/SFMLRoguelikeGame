@@ -84,7 +84,7 @@
     <ClInclude Include="include\debugging\debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\entities\enemies\Slime.h">
+    <ClInclude Include="include\entities\enemies\slime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -137,10 +137,10 @@
     <ClCompile Include="source\debugging\debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\entities\enemies\Slime.cpp">
+    <ClCompile Include="source\weapons\baseweapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\weapons\baseweapon.cpp">
+    <ClCompile Include="source\entities\enemies\slime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

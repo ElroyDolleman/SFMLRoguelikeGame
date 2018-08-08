@@ -20,13 +20,29 @@ void SpriteAnimation::addAnimation(int animKey, float interval, int fromFrame, i
 		fromFrame = toFrame;
 		toFrame = swap;
 	}
+	if (fromFrame == toFrame)
+	{
+		printf("Warning: fromFrame and toFrame are the same. Use the addAnimation overload that only takes a single frame instead.\n");
+		addAnimation(animKey, interval, fromFrame);
+		return;
+	}
 #endif
 
-	// Fill the with a range from a frame to a frame
 	vector<int> frames(toFrame + 1 - fromFrame);
-	iota(frames.begin(), frames.end(), fromFrame);
+
+	// Fill the with a range from a frame to a frame
+	if (fromFrame == toFrame - 1)
+		frames = { fromFrame, toFrame };
+	else
+		iota(frames.begin(), frames.end(), fromFrame);
 
 	addAnimation(animKey, interval, frames);
+}
+
+void SpriteAnimation::addAnimation(int animKey, float interval, int singleFrame)
+{
+	animations[animKey] = Animation(interval, { singleFrame });
+	animationCount++;
 }
 
 void SpriteAnimation::addAnimation(int animKey, float interval, vector<int> frames)
@@ -40,13 +56,25 @@ int SpriteAnimation::getCurrentAnimationKey() const
 	return currentAnimation;
 }
 
+const SpriteAnimation::Animation& SpriteAnimation::getCurrentAnimation()
+{
+#if _DEBUG
+	if (animations.size() == 0)
+		printf("Error: Can't return the current animation when there are no animation. Game is going to crash.\n");
+#endif
+	return animations[currentAnimation];
+}
+
 void SpriteAnimation::switchToAnimation(int animKey)
 {
 	if (currentAnimation == animKey)
 		return;
 
 	currentAnimation = animKey;
+
+	// Reset the timer
 	timer = 0.0f;
+	finishedPlaying = false;
 
 	// Update the animation visually
 	setTileNumber(animations[currentAnimation].getTileNumber());
@@ -62,8 +90,9 @@ void SpriteAnimation::update(float deltaTime)
 		return;
 	}
 #endif
-	// If the animation is pause, stop updating it
-	if (pause)
+	// If the animation is paused or finished, don't update it
+	// If the current animation only has 1 frame, there is no need to update
+	if (pause || finishedPlaying || animations[currentAnimation].getFramesCount() <= 1)
 		return;
 
 	timer += deltaTime * 1000.0f;
@@ -78,11 +107,34 @@ void SpriteAnimation::update(float deltaTime)
 		else
 			animation.previousFrame();
 
+		// When the animation is at the last frame, and it doesn't loop, then the animation is finished
+		if (!isLooping && animation.currentFrame == animation.getFramesCount() - 1)
+			finishedPlaying = true;
+
 		setTileNumber(animation.getTileNumber());
 	}
 }
 
-int SpriteAnimation::getAnimationCount()
+int SpriteAnimation::getAnimationCount() const
 {
 	return animationCount;
+}
+
+bool SpriteAnimation::hasFinishedPlaying() const
+{
+	return finishedPlaying;
+}
+
+bool SpriteAnimation::IsLooping() const
+{
+	return isLooping;
+}
+
+void SpriteAnimation::SetLooping(bool loops)
+{
+	if (loops != isLooping)
+	{
+		isLooping = loops;
+		finishedPlaying = false;
+	}
 }
