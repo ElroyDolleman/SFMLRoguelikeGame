@@ -166,8 +166,10 @@
     <ClInclude Include="include\entities\player.h" />
     <ClInclude Include="include\entities\projectile.h" />
     <ClInclude Include="include\fwd.h" />
+    <ClInclude Include="include\graphics\animation.h" />
     <ClInclude Include="include\graphics\spriteanimation.h" />
     <ClInclude Include="include\graphics\tileset.h" />
+    <ClInclude Include="include\interfaces\damagedealer.h" />
     <ClInclude Include="include\json.hpp" />
     <ClInclude Include="include\managers\contentloader.h" />
     <ClInclude Include="include\managers\gamemanager.h" />
@@ -186,6 +188,7 @@
     <ClCompile Include="source\collision\collisionmanager.cpp" />
     <ClCompile Include="source\debugging\debug.cpp" />
     <ClCompile Include="source\entities\enemies\slime.cpp" />
+    <ClCompile Include="source\graphics\animation.cpp" />
     <ClCompile Include="source\managers\contentloader.cpp" />
     <ClCompile Include="source\map\room.cpp" />
     <ClCompile Include="main.cpp" />

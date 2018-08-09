@@ -22,6 +22,12 @@ protected:
 		Attacking = 1 << 6,
 	};
 
+	struct PlayerFrameData
+	{
+		Vector2f rightHandPosition;
+		Vector2f leftHandPosition;
+	};
+
 public:
 
 	static bool PlayWithController;
@@ -31,12 +37,13 @@ public:
 
 	// Initialize functions
 	void CreateAnimations();
+	void CreateFrameData();
 
 	// Combat Functions
 	void ObtainWeapon(BaseWeapon* newWeapon);
-	const BaseWeapon* GetWeapon() const;
+	BaseWeapon* GetWeapon();
 	bool HasWeapon() const;
-	Vector2f GetWeaponOffset() const;
+	void UpdateWeaponOrientation();
 
 	void StartAttack();
 	void StopAttack();
@@ -47,7 +54,7 @@ public:
 	virtual void SetCollidablePositionY(float yPos) override;
 
 	// IDamageable override functions
-	virtual bool IntersectsHurtbox() const override;
+	virtual bool IntersectsHurtbox(const vector<AABB>& damageBoxes) const override;
 	virtual void Damage(int damage) override;
 	virtual AABB GetAABBHurtbox() const;
 
@@ -91,4 +98,10 @@ protected:
 	virtual void ChangeState(States newState);
 	virtual void ChangeDirection(FacingDirections newDirection);
 	virtual void UpdateAnimation();
+
+	// Animation
+	map<int, PlayerFrameData> frameData;
+
+	int GetFrameID(int animKey, int frameNumber);
+	virtual void AddFrameData(int id, Vector2f rightHandPosition, Vector2f leftHandPosition);
 };

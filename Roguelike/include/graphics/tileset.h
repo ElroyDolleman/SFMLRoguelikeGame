@@ -38,6 +38,9 @@ public:
 
 	int getTileNumber() const;
 
+	IntRect tileNumberToRect(int n) const;
+	IntRect currentTileNumberToRect() const;
+
 protected:
 
 	int tileNumber = 0;
@@ -46,5 +49,5 @@ protected:
 	Vector2i spacing = { 0, 0 };
 	Vector2i margin = { 0, 0 };
 
-	void updateTextureRect();
+	virtual void updateTextureRect();
 };

@@ -14,8 +14,7 @@ public:
 	virtual void SetCollidablePositionY(float yPos) override;
 
 	// IDamageable override functions
-	virtual bool IntersectsHurtbox() const override;
-	virtual AABB GetAABBHurtbox() const;
+	virtual bool IntersectsHurtbox(const vector<AABB>& damageBoxes) const override;
 	virtual void Damage(int damage) override;
 
 	// Entity override functions

@@ -3,8 +3,8 @@
 Slime::Slime(SpriteAnimation sprite)
 	: Enemy(sprite)
 {
-	this->sprite.addAnimation(LeftAnimation, 500.0f, 0, 1);
-	this->sprite.addAnimation(RightAnimation, 500.0f, 2, 3);
+	//this->sprite.addAnimation(LeftAnimation, 500.0f, 0, 1);
+	//this->sprite.addAnimation(RightAnimation, 500.0f, 2, 3);
 
 	localHitbox = { 3, 5, 10, 9 };
 }
@@ -30,14 +30,9 @@ void Slime::SetCollidablePositionY(float yPos)
 	SetYPosition(yPos - localHitbox.top);
 }
 
-bool Slime::IntersectsHurtbox() const
+bool Slime::IntersectsHurtbox(const vector<AABB>& damageBoxes) const
 {
 	return false;
-}
-
-AABB Slime::GetAABBHurtbox() const
-{
-	return GetAABBCollider();
 }
 
 void Slime::Damage(int damage)
@@ -48,7 +43,7 @@ void Slime::Damage(int damage)
 void Slime::Update(float deltaTime)
 {
 	// Update the sprite animation
-	sprite.update(deltaTime);
+	//sprite.update(deltaTime);
 
 	if (hasTarget)
 	{
@@ -58,10 +53,10 @@ void Slime::Update(float deltaTime)
 		else
 		{
 #endif
-			Vector2f targetCenter = (Vector2f)target->GetAABBHurtbox().getCenter();
+			/*Vector2f targetCenter = (Vector2f)target->GetAABBHurtbox().getCenter();
 			Vector2f myCenter = (Vector2f)localHitbox.getCenter();
 
-			MoveTowards(targetCenter.x - myCenter.x, targetCenter.y - myCenter.y, speed * deltaTime);
+			MoveTowards(targetCenter.x - myCenter.x, targetCenter.y - myCenter.y, speed * deltaTime);*/
 #if _DEBUG
 		}
 #endif

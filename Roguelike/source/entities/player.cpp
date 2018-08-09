@@ -10,6 +10,7 @@ Player::Player(SpriteAnimation sprite)
 	: Entity(sprite)
 {
 	CreateAnimations();
+	CreateFrameData();
 
 	localHitbox = { 3, 5, 16, 16 };
 
@@ -45,23 +46,76 @@ AABB Player::GetAABBHurtbox() const
 void Player::CreateAnimations()
 {
 	// TODO: Animation speed needs to be more dynamic and not defined in a magic number
-	
-	sprite.addAnimation(States::Idle | FacingDirections::Down, 140.f, 0);
-	sprite.addAnimation(States::Idle | FacingDirections::Up, 140.f, 3);
-	sprite.addAnimation(States::Idle | FacingDirections::Right, 140.f, 6);
-	sprite.addAnimation(States::Idle | FacingDirections::Left, 140.f, 9);
 
-	sprite.addAnimation(States::Walking | FacingDirections::Down, 140.f, { 0, 1, 0, 2 });
-	sprite.addAnimation(States::Walking | FacingDirections::Up, 140.f, { 3, 4, 3, 5 });
-	sprite.addAnimation(States::Walking | FacingDirections::Right, 140.f, 7, 8);
-	sprite.addAnimation(States::Walking | FacingDirections::Left, 140.f, 10, 11);
+	sprite.createAnimationFromTileNumbers(States::Idle | FacingDirections::Down, 140.f, 0);
+	sprite.createAnimationFromTileNumbers(States::Idle | FacingDirections::Up, 140.f, 3);
+	sprite.createAnimationFromTileNumbers(States::Idle | FacingDirections::Right, 140.f, 6);
+	sprite.createAnimationFromTileNumbers(States::Idle | FacingDirections::Left, 140.f, 9);
 
-	sprite.addAnimation(States::Attacking | FacingDirections::Down, 140.f, { 12, 13, 12, 0 });
-	sprite.addAnimation(States::Attacking | FacingDirections::Up, 140.f, { 15, 16, 15, 3 });
-	sprite.addAnimation(States::Attacking | FacingDirections::Right, 140.f, { 18, 19, 18, 6 });
-	sprite.addAnimation(States::Attacking | FacingDirections::Left, 140.f, { 21, 22, 21, 9 });
+	sprite.createAnimationFromTileNumbers(States::Walking | FacingDirections::Down, 140.f, { 0, 1, 0, 2 });
+	sprite.createAnimationFromTileNumbers(States::Walking | FacingDirections::Up, 140.f, { 3, 4, 3, 5 });
+	sprite.createAnimationFromTileNumbers(States::Walking | FacingDirections::Right, 140.f, 7, 8);
+	sprite.createAnimationFromTileNumbers(States::Walking | FacingDirections::Left, 140.f, 10, 11);
+
+	sprite.createAnimationFromTileNumbers(States::Attacking | FacingDirections::Down, 170.f, { 12, 13, 12, 0 });
+	sprite.createAnimationFromTileNumbers(States::Attacking | FacingDirections::Up, 170.f, { 15, 16, 15, 3 });
+	sprite.createAnimationFromTileNumbers(States::Attacking | FacingDirections::Right, 170.f, { 18, 19, 18, 6 });
+	sprite.createAnimationFromTileNumbers(States::Attacking | FacingDirections::Left, 170.f, { 21, 22, 21, 9 });
 
 	UpdateAnimation();
+}
+
+void Player::CreateFrameData()
+{
+	AddFrameData(GetFrameID(States::Idle | FacingDirections::Right, 0), { 16, 15 }, { 8, 15 });
+	AddFrameData(GetFrameID(States::Idle | FacingDirections::Left, 0), { 14, 15 }, { 6, 15 });
+	AddFrameData(GetFrameID(States::Idle | FacingDirections::Down, 0), { 16, 15 }, { 6, 15 });
+	AddFrameData(GetFrameID(States::Idle | FacingDirections::Up, 0), { 6, 15 }, { 16, 15 });
+
+	int walkDown = States::Walking | FacingDirections::Down;
+	AddFrameData(GetFrameID(walkDown, 0), { 16, 15 }, { 6, 15 });
+	AddFrameData(GetFrameID(walkDown, 1), { 15, 14 }, { 5, 15 });
+	AddFrameData(GetFrameID(walkDown, 2), { 16, 15 }, { 6, 15 });
+	AddFrameData(GetFrameID(walkDown, 3), { 17, 15 }, { 7, 14 });
+
+	int walkUp = States::Walking | FacingDirections::Up;
+	AddFrameData(GetFrameID(walkUp, 0), { 6, 15 }, { 16, 15 });
+	AddFrameData(GetFrameID(walkUp, 1), { 5, 15 }, { 15, 14 });
+	AddFrameData(GetFrameID(walkUp, 2), { 6, 15 }, { 16, 15 });
+	AddFrameData(GetFrameID(walkUp, 3), { 7, 14 }, { 17, 15 });
+
+	int walkRight = States::Walking | FacingDirections::Right;
+	AddFrameData(GetFrameID(walkRight, 0), { 15, 15 }, { 9, 15 });
+	AddFrameData(GetFrameID(walkRight, 1), { 14, 15 }, { 8, 15 });
+
+	int walkLeft = States::Walking | FacingDirections::Left;
+	AddFrameData(GetFrameID(walkLeft, 0), { 15, 15 }, { 6, 15 });
+	AddFrameData(GetFrameID(walkLeft, 1), { 14, 15 }, { 7, 15 });
+
+	// Attack animations
+	int attackDown = States::Attacking | FacingDirections::Down;
+	AddFrameData(GetFrameID(attackDown, 0), { 15, 14 }, { 12, 15 });
+	AddFrameData(GetFrameID(attackDown, 2), { 15, 14 }, { 12, 15 });
+	AddFrameData(GetFrameID(attackDown, 1), { 17, 13 }, { 6, 19 });
+	AddFrameData(GetFrameID(attackDown, 3), { 16, 15 }, { 8, 15 });
+
+	int attackUp = States::Attacking | FacingDirections::Up;
+	AddFrameData(GetFrameID(attackUp, 0), { 15, 14 }, { 10, 12 });
+	AddFrameData(GetFrameID(attackUp, 2), { 15, 14 }, { 10, 12 });
+	AddFrameData(GetFrameID(attackUp, 1), { 4, 15 }, { 15, 5 });
+	AddFrameData(GetFrameID(attackUp, 3), { 6, 15 }, { 16, 15 });
+
+	int attackRight = States::Attacking | FacingDirections::Right;
+	AddFrameData(GetFrameID(attackRight, 0), { 12, 15 }, { 12, 15 });
+	AddFrameData(GetFrameID(attackRight, 2), { 12, 15 }, { 12, 15 });
+	AddFrameData(GetFrameID(attackRight, 1), { 12, 15 }, { 18, 15 });
+	AddFrameData(GetFrameID(attackRight, 3), { 16, 15 }, { 8, 15 });
+
+	int attackLeft = States::Attacking | FacingDirections::Left;
+	AddFrameData(GetFrameID(attackLeft, 0), { 10, 15 }, { 10, 15 });
+	AddFrameData(GetFrameID(attackLeft, 2), { 10, 15 }, { 10, 15 });
+	AddFrameData(GetFrameID(attackLeft, 1), { 10, 15 }, { 3, 15 });
+	AddFrameData(GetFrameID(attackLeft, 3), { 14, 15 }, { 6, 15 });
 }
 
 void Player::ObtainWeapon(BaseWeapon* newWeapon)
@@ -75,10 +129,10 @@ void Player::ObtainWeapon(BaseWeapon* newWeapon)
 	hasWeapon = true;
 
 	currentWeapon->SetOwner(this);
-	currentWeapon->SetOffset(GetWeaponOffset());
+	UpdateWeaponOrientation();
 }
 
-const BaseWeapon* Player::GetWeapon() const
+BaseWeapon* Player::GetWeapon()
 {
 	return currentWeapon;
 }
@@ -96,32 +150,26 @@ bool Player::HasWeapon() const
 	return hasWeapon;
 }
 
-Vector2f Player::GetWeaponOffset() const
+void Player::UpdateWeaponOrientation()
 {
-	//const Vector2i& dir = GetDirectionBasedOnAnimation();
+	currentWeapon->SetOffset(frameData[sprite.getCurrentAnimation().GetCurrentFrame().GetID()].rightHandPosition);
 
-	//if (dir.y < 0)
-	//{
-	//	currentWeapon->SetRotation(270);
-	//	return { 12, 4 };
-	//}
-	//if (dir.y > 0)
-	//{
-	//	currentWeapon->SetRotation(90);
-	//	return { 12, 10 };
-	//}
-	//if (dir.x > 0)
-	//{
-	//	currentWeapon->SetRotation(0);
-	//	return { 10, 12 };
-	//}
-	//if (dir.x < 0)
-	//{
-	//	currentWeapon->SetRotation(180);
-	//	return { 6, 12 };
-	//}
-
-	return Vector2f();
+	switch (currentFacingDirection)
+	{
+	default:
+	case Player::Down:
+		currentWeapon->SetRotation(0);
+		break;
+	case Player::Up:
+		currentWeapon->SetRotation(180);
+		break;
+	case Player::Left:
+		currentWeapon->SetRotation(90);
+		break;
+	case Player::Right:
+		currentWeapon->SetRotation(270);
+		break;
+	}
 }
 
 void Player::StartAttack()
@@ -130,7 +178,7 @@ void Player::StartAttack()
 
 	// TODO: Check extra direction input for quick turnarounds
 
-	sprite.SetLooping(false);
+	sprite.setLooping(false);
 	UpdateAnimation();
 
 	inputEnabled = false;
@@ -139,7 +187,7 @@ void Player::StartAttack()
 void Player::StopAttack()
 {
 	ChangeState(States::Idle);
-	sprite.SetLooping(true);
+	sprite.setLooping(true);
 
 	inputEnabled = true;
 }
@@ -165,7 +213,7 @@ void Player::SetCollidablePositionY(float yPos)
 	SetYPosition(yPos - localHitbox.top);
 }
 
-bool Player::IntersectsHurtbox() const
+bool Player::IntersectsHurtbox(const vector<AABB>& damageBoxes) const
 {
 	return false;
 }
@@ -192,11 +240,11 @@ void Player::Update(float deltaTime)
 	sprite.update(deltaTime);
 
 	// Update the weapon
-	//if (hasWeapon)
-	//{
-	//	currentWeapon->SetOffset(GetWeaponOffset());
-	//	currentWeapon->Update(deltaTime);
-	//}
+	if (hasWeapon)
+	{
+		UpdateWeaponOrientation();
+		currentWeapon->Update(deltaTime);
+	}
 }
 
 void Player::UpdateJoystickInput(float deltaTime)
@@ -376,6 +424,18 @@ void Player::UpdateAnimation()
 	sprite.switchToAnimation(currentState | currentFacingDirection);
 }
 
+int Player::GetFrameID(int animKey, int frameNumber)
+{
+	return sprite.getAnimation(animKey).GetFrame(frameNumber).GetID();
+}
+
+void Player::AddFrameData(int id, Vector2f leftHandPosition, Vector2f rightHandPosition)
+{
+	frameData[id] = PlayerFrameData();
+	frameData[id].leftHandPosition = leftHandPosition;
+	frameData[id].rightHandPosition = rightHandPosition;
+}
+
 void Player::Move(float x, float y)
 {
 	// If the player didn't move, change to the idle state
@@ -417,10 +477,18 @@ void Player::Move(float x, float y)
 
 void Player::Draw(RenderWindow& window)
 {
+	// Whether it should show the player in front of the weapon
+	bool showPlayerInFront = currentFacingDirection == FacingDirections::Up || currentFacingDirection == FacingDirections::Left;
+
+	// Draw the weapon under the player when she is facing up
+	if (hasWeapon && showPlayerInFront)
+		currentWeapon->Draw(window);
+
 	Entity::Draw(window);
 
-	//if (hasWeapon)
-		//currentWeapon->Draw(window);
+	// Draw the weapon on top of the player when she is facing any other direction then up
+	if (hasWeapon && !showPlayerInFront)
+		currentWeapon->Draw(window);
 
 	// Draws the hitbox
 //#if _DEBUG

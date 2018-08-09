@@ -7,7 +7,8 @@ public:
 
 	virtual void Damage(int damage) = 0;
 
-	virtual bool IntersectsHurtbox() const = 0;
-
-	virtual AABB GetAABBHurtbox() const = 0;
+	virtual bool IntersectsHurtbox(const AABB& damageBox) const {
+		return IntersectsHurtbox({ damageBox });
+	}
+	virtual bool IntersectsHurtbox(const vector<AABB>& damageBoxes) const = 0;
 };

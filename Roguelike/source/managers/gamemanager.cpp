@@ -62,8 +62,8 @@ GameManager::GameManager(RenderWindow& window)
 	collisionManager->AddCollidableEntity(slime);
 
 	// Giving the player a sword
-	SpriteAnimation swordSprite = SpriteAnimation(contentLoader->LoadTexture("playersheet2.png"), 32, 16, 16, 16);
-	swordSprite.setMargin(60, 0);
+	SpriteAnimation swordSprite = SpriteAnimation(contentLoader->LoadTexture("playersheet2.png"), 16, 16, 16, 16);
+	swordSprite.setMargin(66, 0);
 	Sword* sword = new Sword(swordSprite);
 
 	player->ObtainWeapon(sword);

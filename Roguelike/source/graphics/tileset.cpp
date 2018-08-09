@@ -146,14 +146,24 @@ int Tileset::getTileNumber() const
 	return tileNumber;
 }
 
-void Tileset::updateTextureRect()
+IntRect Tileset::tileNumberToRect(int n) const
 {
 	int tilesPerRow = imageSize.x / (tileSize.x + spacing.x);
 
-	IntRect newTextureRect = { 0, 0, tileSize.x, tileSize.y };
+	IntRect rect = { 0, 0, tileSize.x, tileSize.y };
 
-	newTextureRect.left = margin.x + tileNumber % tilesPerRow * (tileSize.x + spacing.x);
-	newTextureRect.top = margin.y + (int)floor(tileNumber / tilesPerRow) * (tileSize.y + spacing.y);
+	rect.left = margin.x + n % tilesPerRow * (tileSize.x + spacing.x);
+	rect.top = margin.y + (int)floor(n / tilesPerRow) * (tileSize.y + spacing.y);
 
-	setTextureRect(newTextureRect);
+	return rect;
+}
+
+IntRect Tileset::currentTileNumberToRect() const
+{
+	return tileNumberToRect(tileNumber);
+}
+
+void Tileset::updateTextureRect()
+{
+	setTextureRect(currentTileNumberToRect());
 }

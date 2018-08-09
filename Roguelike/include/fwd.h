@@ -21,6 +21,7 @@ class ContentLoader;
 
 // Interfaces
 class IDamageable;
+class IDamageDealer;
 
 // Graphics
 class TileSet;

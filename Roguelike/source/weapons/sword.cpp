@@ -4,17 +4,21 @@
 Sword::Sword(SpriteAnimation sprite)
 	: BaseWeapon(sprite)
 {
-	this->sprite.setOrigin(2, 8);
+	this->sprite.setOrigin(8, 2);
 }
 
-void Sword::Attack()
+void Sword::StartAttack()
 {
+	IDamageDealer::StartAttack();
 
+	//visible = true;
 }
 
-bool Sword::IsAttacking() const
+void Sword::StopAttack()
 {
-	return false;
+	IDamageDealer::StopAttack();
+
+	//visible = false;
 }
 
 void Sword::Update(float deltaTime)

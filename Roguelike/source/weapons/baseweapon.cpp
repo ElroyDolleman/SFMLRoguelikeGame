@@ -35,6 +35,16 @@ Entity* BaseWeapon::GetOwner() const
 	return owner;
 }
 
+float BaseWeapon::GetStartUpSpeed() const
+{
+	return startUpSpeed;
+}
+
+float BaseWeapon::GetAttackDuration() const
+{
+	return attackDuration;
+}
+
 void BaseWeapon::SetOffset(const Vector2f& offset)
 {
 	this->offset = offset;
@@ -49,4 +59,19 @@ void BaseWeapon::Update(float deltaTime)
 {
 	if (hasOnwer)
 		SetPosition(owner->GetPosition() + offset);
+
+	if (!IsAttacking())
+		return;
+
+	if (timer += deltaTime * 1000.f >= attackDuration)
+	{
+		timer = 0;
+		StopAttack();
+	}
+}
+
+void BaseWeapon::Draw(RenderWindow& window)
+{
+	if (visible)
+		Entity::Draw(window);
 }

@@ -7,12 +7,12 @@ public:
 
 	Sword(SpriteAnimation sprite);
 
-	virtual void Attack() override;
-	virtual bool IsAttacking() const override;
+	virtual void StartAttack() override;
+	virtual void StopAttack() override;
 
 	virtual void Update(float deltaTime) override;
 
-protected:
+private:
 
-
+	float timer;
 };
