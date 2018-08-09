@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "managers\gamemanager.h"
+#include "graphics\spriteanimation.h"
 
 #if _DEBUG
 #include "debugging\debug.h"

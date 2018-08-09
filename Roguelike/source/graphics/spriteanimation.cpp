@@ -10,74 +10,103 @@ SpriteAnimation::SpriteAnimation(const Texture& texture, const Vector2i& sheetSi
 {
 }
 
-void SpriteAnimation::addAnimation(int animKey, float interval, int fromFrame, int toFrame)
+void SpriteAnimation::addAnimation(int animKey, Animation newAnimation)
+{
+	animations[animKey] = newAnimation;
+	animationCount++;
+}
+
+Animation& SpriteAnimation::createAnimationFromTileNumbers(int animKey, float interval, const vector<int>& tileNumbers)
 {
 #if _DEBUG
-	if (fromFrame > toFrame)
+	if (tileNumbers.size() == 0)
+		throw exception("Cannot create an animation from tile numbers without tile numbers.");
+#endif
+
+	// Add the first frame
+	Animation newAnimation = Animation(Frame(tileNumberToRect(tileNumbers[0])), interval);
+
+	// Add every other frame
+	for (int i = 1; i < tileNumbers.size(); i++)
+		newAnimation.AddFrame(Frame(tileNumberToRect(tileNumbers[i])));
+
+	// Add the animation to the list and return it
+	addAnimation(animKey, newAnimation);
+	return animations[animKey];
+}
+
+Animation& SpriteAnimation::createAnimationFromTileNumbers(int animKey, float interval, int fromTileNumber, int toTileNumber)
+{
+#if _DEBUG
+	if (fromTileNumber > toTileNumber)
 	{
-		printf("Warning: fromFrame needs to be lower than toFrame. %i is not lower than %i.\n", fromFrame, toFrame);
-		int swap = fromFrame;
-		fromFrame = toFrame;
-		toFrame = swap;
+		printf("Warning: fromTileNumber needs to be lower than toTileNumber. %i is not lower than %i.\n", fromTileNumber, toTileNumber);
+		int swap = fromTileNumber;
+		fromTileNumber = toTileNumber;
+		toTileNumber = swap;
 	}
-	if (fromFrame == toFrame)
+	if (fromTileNumber == toTileNumber)
 	{
-		printf("Warning: fromFrame and toFrame are the same. Use the addAnimation overload that only takes a single frame instead.\n");
-		addAnimation(animKey, interval, fromFrame);
-		return;
+		printf("Warning: fromTileNumber and toTileNumber are the same. Use the createAnimationFromTileNumbers overload that only takes a single frame instead.\n");
+		return createAnimationFromTileNumbers(animKey, interval, fromTileNumber);
 	}
 #endif
 
-	vector<int> frames(toFrame + 1 - fromFrame);
+	vector<int> frames(toTileNumber + 1 - fromTileNumber);
 
 	// Fill the with a range from a frame to a frame
-	if (fromFrame == toFrame - 1)
-		frames = { fromFrame, toFrame };
+	if (fromTileNumber == toTileNumber - 1)
+		frames = { fromTileNumber, toTileNumber };
 	else
-		iota(frames.begin(), frames.end(), fromFrame);
+		iota(frames.begin(), frames.end(), fromTileNumber);
 
-	addAnimation(animKey, interval, frames);
+	return createAnimationFromTileNumbers(animKey, interval, frames);
 }
 
-void SpriteAnimation::addAnimation(int animKey, float interval, int singleFrame)
+Animation& SpriteAnimation::createAnimationFromTileNumbers(int animKey, float interval, int singleTileNumber)
 {
-	animations[animKey] = Animation(interval, { singleFrame });
-	animationCount++;
-}
+	Animation newAnimation = Animation(Frame(tileNumberToRect(singleTileNumber)), interval);
 
-void SpriteAnimation::addAnimation(int animKey, float interval, vector<int> frames)
-{
-	animations[animKey] = Animation(interval, frames);
-	animationCount++;
+	addAnimation(animKey, newAnimation);
+	return animations[animKey];
 }
 
 int SpriteAnimation::getCurrentAnimationKey() const
 {
-	return currentAnimation;
+	return currentAnimationKey;
 }
 
-const SpriteAnimation::Animation& SpriteAnimation::getCurrentAnimation()
+Animation& SpriteAnimation::getCurrentAnimation()
+{
+	return getAnimation(currentAnimationKey);
+}
+
+Animation& SpriteAnimation::getAnimation(int animKey)
 {
 #if _DEBUG
 	if (animations.size() == 0)
-		printf("Error: Can't return the current animation when there are no animation. Game is going to crash.\n");
+		throw exception("Can't return the animation with key %i when there are no animation. Game is going to crash.\n", animKey);
+
+	map<int, Animation>::iterator it = animations.find(animKey);
+	if (it == animations.end())
+		throw exception("Can't return the animation with key %i because it does not exists\n", animKey);
 #endif
-	return animations[currentAnimation];
+	return animations[animKey];
 }
 
 void SpriteAnimation::switchToAnimation(int animKey)
 {
-	if (currentAnimation == animKey)
+	if (currentAnimationKey == animKey)
 		return;
 
-	currentAnimation = animKey;
+	animations[currentAnimationKey].Reset();
+	currentAnimationKey = animKey;
 
 	// Reset the timer
 	timer = 0.0f;
 	finishedPlaying = false;
 
 	// Update the animation visually
-	setTileNumber(animations[currentAnimation].getTileNumber());
 	updateTextureRect();
 }
 
@@ -89,29 +118,35 @@ void SpriteAnimation::update(float deltaTime)
 		printf("Warning: Animation can't be updated if there are no animations.\n");
 		return;
 	}
+	map<int, Animation>::iterator it = animations.find(currentAnimationKey);
+	if (it == animations.end())
+	{
+		printf("Warning: Current animation does not exists\n");
+		return;
+	}
 #endif
 	// If the animation is paused or finished, don't update it
 	// If the current animation only has 1 frame, there is no need to update
-	if (pause || finishedPlaying || animations[currentAnimation].getFramesCount() <= 1)
+	if (pause || finishedPlaying || animations[currentAnimationKey].FramesCount() <= 1)
 		return;
 
 	timer += deltaTime * 1000.0f;
-	Animation& animation = animations[currentAnimation];
+	Animation& animation = animations[currentAnimationKey];
 
 	while (timer >= animation.interval)
 	{
 		timer -= animation.interval;
 
 		if (!playBackwards)
-			animation.nextFrame();
+			animation.NextFrame();
 		else
-			animation.previousFrame();
+			animation.PreviousFrame();
 
 		// When the animation is at the last frame, and it doesn't loop, then the animation is finished
-		if (!isLooping && animation.currentFrame == animation.getFramesCount() - 1)
+		if (!loop && animation.IsAtLastFrame())
 			finishedPlaying = true;
 
-		setTileNumber(animation.getTileNumber());
+		updateTextureRect();
 	}
 }
 
@@ -125,16 +160,35 @@ bool SpriteAnimation::hasFinishedPlaying() const
 	return finishedPlaying;
 }
 
-bool SpriteAnimation::IsLooping() const
+bool SpriteAnimation::isLooping() const
 {
-	return isLooping;
+	return loop;
 }
 
-void SpriteAnimation::SetLooping(bool loops)
+void SpriteAnimation::setLooping(bool loops)
 {
-	if (loops != isLooping)
+	if (loops != loop)
 	{
-		isLooping = loops;
+		loop = loops;
 		finishedPlaying = false;
 	}
+}
+
+void SpriteAnimation::updateTextureRect()
+{
+	// Use the base updateTextureRect function if there are no animations
+	if (animationCount == 0)
+		Tileset::updateTextureRect();
+
+#if _DEBUG
+	map<int, Animation>::iterator it = animations.find(currentAnimationKey);
+	if (it == animations.end()) 
+	{
+		printf("Warning: Can't update texture rect because the current animation does not exists.\n");
+		return;
+	}
+#endif
+
+	// Get the texture rect from the current frame
+	setTextureRect(animations[currentAnimationKey].GetCurrentFrame().textureRect);
 }
